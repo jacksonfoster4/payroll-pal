@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from 'react';
+import './css/App.css';
+import Login from './LoginComponents/Login'
+import Core from './CoreComponents/Core';
+import AuthContext from './AuthContext'
+import ProtectedRoute from './CoreComponents/ProtectedRoute'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import PayrollPalClient from './payroll-pal-client';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    isAuthenticated: () => {
+      return PayrollPalClient.getIsAuthenticated()
+    },
+    authToken: () => {
+      return PayrollPalClient.getAuthToken()
+    },
+    login: (username, password) => {
+      PayrollPalClient.login(username, password);
+    },
+    logout: () => {
+      let ppc = new PayrollPalClient()
+      ppc.logout();
+    },
+    updateIsAuthenticated: (val) => {
+      this.setState({
+        isAuthenticated: val
+      })
+    },
+    updateAuthToken: (token) => {
+      this.setState({
+        authToken: token
+      })
+    },
+  }
+
+  render(){
+    return(
+      <AuthContext.Provider value={this.state}>
+        <Router>
+          <Switch>
+            <Route path="/login" component={Login} />
+            <ProtectedRoute path="/core" component={Core} />
+          </Switch>
+        </Router> 
+      </AuthContext.Provider>
+    )
+  }
 }
 
-export default App;
+export default App

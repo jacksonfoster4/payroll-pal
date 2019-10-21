@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Mono&display=swap');
+
+body {
+    background-color: #f9f9f9
+}
+.login-form {
+    text-align: center !important;
+}
+
+.pt-mono {
+    font-family: 'PT Mono', monospace;
+}
