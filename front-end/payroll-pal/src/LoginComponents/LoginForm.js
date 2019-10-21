@@ -3,6 +3,7 @@ import "../css/Login.css"
 import '../css/App.css';
 import { Redirect, withRouter } from 'react-router-dom'
 import AuthContext from '../AuthContext';
+import PayrollPalClient from '../payroll-pal-client'
 
 class LoginForm extends React.Component {
     constructor(props){
@@ -12,7 +13,11 @@ class LoginForm extends React.Component {
     }
     login = (e) => {
         e.preventDefault();
-        this.props.context.login()
+
+        let username;
+        let password;
+        PayrollPalClient.login(username, password);
+
         this.props.history.push("/core") 
     }
     render(){

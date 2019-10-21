@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import AuthContext from "../AuthContext";
 import LoginForm from './LoginForm'
 import '../css/Login.css';
@@ -10,13 +10,6 @@ let LogoLarge = require('../assets/Payroll-Pal-Logo Large.svg');
 class Login extends React.Component {
     constructor(props){
         super(props)
-        this.login = this.login.bind(this)
-    }
-    login(){
-        this.props.context.login()
-        return (
-            <Redirect to="/core" />
-        )
     }
     render(){
         if(this.props.context.isAuthenticated()){

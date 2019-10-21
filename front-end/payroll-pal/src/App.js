@@ -15,22 +15,9 @@ class App extends React.Component {
     authToken: () => {
       return PayrollPalClient.getAuthToken()
     },
-    login: (username, password) => {
-      PayrollPalClient.login(username, password);
-    },
     logout: () => {
       let ppc = new PayrollPalClient()
       ppc.logout();
-    },
-    updateIsAuthenticated: (val) => {
-      this.setState({
-        isAuthenticated: val
-      })
-    },
-    updateAuthToken: (token) => {
-      this.setState({
-        authToken: token
-      })
     },
   }
 
