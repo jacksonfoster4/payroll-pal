@@ -7,14 +7,13 @@ class PayrollPalClient  {
         ppc.setAuthToken("AUTH-TOKEN-XXXXX123456XX");
         return ppc
     }
-    logout(){
+    static logout(){
         this.deleteAuthToken();
         this.deleteIsAuthenticated();
     }
 
     static getAuthToken(){
         return Cookies.get('authToken')
-
     }
 
     static getIsAuthenticated(){

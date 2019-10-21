@@ -15,8 +15,4 @@ class Core extends React.Component {
   }
 }
 
-export default (props) => (
-    <AuthContext.Consumer>
-        {(context) => <Core {...props} context={context} />}
-    </AuthContext.Consumer>
-)
+export default Core;
