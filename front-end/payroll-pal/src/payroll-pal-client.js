@@ -8,9 +8,7 @@ class PayrollPalClient  {
         return ppc
     }
     logout(){
-        this.authToken = null;
         this.deleteAuthToken();
-        this.isAuthenticated = false;
         this.deleteIsAuthenticated();
     }
 
