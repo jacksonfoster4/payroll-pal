@@ -4,11 +4,7 @@ import AuthContext from '../AuthContext'
 let LogoSmall = require('../assets/Payroll-Pal-Logo Small.svg');
 
 class Header extends React.Component {
-    constructor(props){
-        super(props)
-        this.logout = this.logout.bind(this)
-    }
-    logout(){
+    logout = () => {
         this.props.context.logout()
     }
     render(){

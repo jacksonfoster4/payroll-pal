@@ -3,9 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 import AuthContext from '../AuthContext'
 
 class ProtectedRoute extends React.Component {
-    constructor(props){
-        super(props)
-    }
+
     render(){
         if(this.props.context.isAuthenticated()){
             return (
@@ -18,6 +16,7 @@ class ProtectedRoute extends React.Component {
             )
         }
     }
+    
 }
 
 export default (props) => (

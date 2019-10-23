@@ -17,7 +17,7 @@ class App extends React.Component {
       return PayrollPalClient.getAuthToken()
     },
     logout: () => {
-      new PayrollPalClient().logout();
+      PayrollPalClient.logout();
     },
   }
 
