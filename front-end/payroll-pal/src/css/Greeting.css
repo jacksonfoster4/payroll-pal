@@ -1,0 +1,12 @@
+.greeting-container {
+    padding-left: 2rem;
+}
+.greeting {
+    font-weight: bold;
+}
+.greeting-content {
+    font-size: 18px;
+}
+.take-home {
+    padding-top: 1rem;
+}

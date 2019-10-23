@@ -1,8 +1,7 @@
 import React from 'react';
 import "../css/Login.css"
 import '../css/App.css';
-import { Redirect, withRouter } from 'react-router-dom'
-import AuthContext from '../AuthContext';
+import { withRouter } from 'react-router-dom'
 import PayrollPalClient from '../payroll-pal-client'
 
 class LoginForm extends React.Component {
@@ -25,19 +24,19 @@ class LoginForm extends React.Component {
             <div className="pt-4 login-form">
                 <div className="row">
                     <div className="col-12">
-                        <h1 className="pt-mono">Login</h1>
                     </div>
-                    <div className="col-md-12">
-                        <form onSubmit={this.login}>    
+                    <div className="p-4 login-form-container">
+                    <h1 className="">Login</h1>
+                        <form id="form" onSubmit={this.login}>    
                             <div className="row">
-                                <div className="py-3 col-12">
-                                    <input className="mb-4" type="text" placeholder="Username" />
+                                <div className="pt-3 col-12">
+                                    <input className="mb-4 pt-mono" type="text" placeholder="Username" />
                                 </div>
                                 <div className="col-12">
-                                    <input type="password" placeholder="Password" />
+                                    <input className="pt-mono"type="password" placeholder="Password" />
                                 </div>
                             </div>
-                            <button type="submit" className="btn mt-4 btn-primary">Login</button>
+                            <button type="submit" className="btn px-3 mt-4 pt-mono pill btn-orange">Login</button>
                         </form>
                     </div>
                 </div>
@@ -47,10 +46,4 @@ class LoginForm extends React.Component {
     }
 }
 
-export default withRouter((props) => (
-    <AuthContext.Consumer>
-        {
-            (context) => <LoginForm {...props} context={context} />
-        }
-    </AuthContext.Consumer>
-))
+export default withRouter(LoginForm)

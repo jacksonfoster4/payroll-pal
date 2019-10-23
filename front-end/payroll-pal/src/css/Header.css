@@ -1,0 +1,18 @@
+nav {
+    box-shadow: 0px 11.7288px 15.9504px rgba(0, 0, 0, 0.05);
+  }
+  .nav-link {
+    color: #EF6E46 !important;
+    padding-right: 1rem;
+    padding-left: 1rem
+  }
+  .navbar-brand img {
+    width: 12rem;
+  }
+  .navbar-toggler {
+    border: none;
+  }
+  
+  .navbar-collapse {
+    text-align: right !important;
+  }

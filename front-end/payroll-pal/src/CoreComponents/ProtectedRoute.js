@@ -7,8 +7,7 @@ class ProtectedRoute extends React.Component {
         super(props)
     }
     render(){
-        let context = this.props.context;
-        if(context.isAuthenticated()){
+        if(this.props.context.isAuthenticated()){
             return (
                 <Route {...this.props} />
             )
@@ -23,6 +22,8 @@ class ProtectedRoute extends React.Component {
 
 export default (props) => (
     <AuthContext.Consumer>
-        {(context) => <ProtectedRoute {...props} context={context} />}
+        {
+            (context) => <ProtectedRoute {...props} context={context} />
+        }
     </AuthContext.Consumer>
 );

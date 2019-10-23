@@ -21,7 +21,7 @@ class Login extends React.Component {
             return(
                 <div className="container login-container">
                     <div className="row">
-                        <div class="login-logo-container pt-4 col-12">
+                        <div className="login-logo-container pt-4 col-12">
                             <img src={LogoLarge} width={300} height={300} />
                         </div>
                     </div>
@@ -34,6 +34,8 @@ class Login extends React.Component {
 
 export default (props) => (
     <AuthContext.Consumer>
-        {(context) => <Login {...props} context={context} />}
+        {
+            (context) => <Login {...props} context={context} />
+        }
     </AuthContext.Consumer>
 );

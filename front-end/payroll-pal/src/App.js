@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import './css/App.css';
+
 import Login from './LoginComponents/Login'
 import Core from './CoreComponents/Core';
 import AuthContext from './AuthContext'
@@ -16,7 +17,7 @@ class App extends React.Component {
       return PayrollPalClient.getAuthToken()
     },
     logout: () => {
-      PayrollPalClient.logout();
+      new PayrollPalClient().logout();
     },
   }
 

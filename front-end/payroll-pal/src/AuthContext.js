@@ -1,9 +1,9 @@
 import React from 'react';
-import PayrollPalClient from './payroll-pal-client';
 
 const AuthContext = React.createContext({
     isAuthenticated: () => {},
     authToken: () => {},
-    logout: () => {}
+    logout: () => {},
+    client: null
 })
 export default AuthContext;

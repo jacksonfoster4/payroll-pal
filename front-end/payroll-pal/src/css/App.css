@@ -1,6 +1,7 @@
-.App {
-  text-align: center;
-}
+@import url('./Login.css');
+@import url('./Header.css');
+@import url('./Entries.css');
+@import url('./Greeting.css');
 
 .App-logo {
   height: 40vmin;
@@ -16,14 +17,37 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.App-body {
+  padding-top: 7rem;
+  color: #26385F
+}
 
 .App-link {
   color: #09d3ac;
 }
 
-.login-container {
-  height: 100vh;
+.btn-orange {
+  background-color: #EF6E46;
+  color: white;
 }
-.login-logo-container {
-  text-align: center
+.btn-orange:hover {
+  background-color: #26385F;
+  color: white 
+}
+
+.orange-text {
+  color: #EF6E46
+}
+.yellow-text {
+  color: #FFBA5F
+}
+
+.greeting {
+  font-weight: bold;
+}
+.greeting-content {
+  font-size: 18px;
+}
+.take-home {
+  padding-top: 1rem;
 }

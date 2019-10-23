@@ -2,10 +2,23 @@ import Cookies from 'js-cookie'
 
 class PayrollPalClient  {
     static login(username, password){
-        let ppc = new PayrollPalClient()
-        ppc.setIsAuthenticated(true);
-        ppc.setAuthToken("AUTH-TOKEN-XXXXX123456XX");
+        setIsAuthenticated(true);
+        setAuthToken("AUTH-TOKEN-XXXXX123456XX");
         return ppc
+    }
+    static getEntries(start, end){
+        let token = Cookies.get('authToken')
+        /* ajax.post({
+            url: 'api.payrollpal.thefoundationworks.com/get-entries',
+            body: {
+                'token': token,
+                'start': start,
+                'end': end
+            }
+        }) */
+        return {
+            "start": "October 21, 2019", "end":"October 25, 2019"
+        }
     }
     static logout(){
         this.deleteAuthToken();
@@ -17,24 +30,24 @@ class PayrollPalClient  {
     }
 
     static getIsAuthenticated(){
-        return Cookies.get('isAuthenticated')
+        let isAuthenticated = true
+        /* let isAuthenticated = ajax.post({
+            'token': token
+        }) */
+        return isAuthenticated
     }
 
-    setAuthToken(token){
-        this.authToken = token;
+    static setAuthToken(token){
         Cookies.set('authToken', token)
     }
-    setIsAuthenticated(val){
-        this.isAuthenticated = val;
+    static setIsAuthenticated(val){
         Cookies.set('isAuthenticated', val)
     }
 
-    deleteAuthToken(){
-        this.authToken = undefined;
+    static deleteAuthToken(){
         Cookies.remove('authToken')
     }
-    deleteIsAuthenticated(){
-        this.isAuthenticated = undefined;
+    static deleteIsAuthenticated(){
         Cookies.remove('isAuthenticated')
     }
 
