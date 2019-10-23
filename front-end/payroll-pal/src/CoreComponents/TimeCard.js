@@ -2,6 +2,7 @@ import React from "react";
 import * as $ from 'jquery';
 
 class TimeCard extends React.Component {
+    
     componentDidMount(){
         this.setCurrentPayPeriodInputs(
             this.props.payPeriodStart, 

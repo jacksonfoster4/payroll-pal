@@ -20,7 +20,7 @@ class App extends React.Component {
       PayrollPalClient.logout();
     },
   }
-
+  
   render(){
     return(
       <AuthContext.Provider value={this.state}>
