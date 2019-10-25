@@ -6,7 +6,14 @@ class Entry extends React.Component {
 
     }
     render(){
-        return <h1>This is an entry</h1>
+        return(
+            <div>
+                {this.props.date}<br/>
+                {this.props.day}<br/>
+                {this.props.hours}<br/>
+                <hr/>
+            </div>  
+        )
     }
 }
 

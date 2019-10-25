@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import {BrowserRouter as Router, Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import AuthContext from '../AuthContext'
 import { CoreContext } from './Core'
 let LogoSmall = require('../assets/Payroll-Pal-Logo Small.svg');
@@ -15,6 +15,9 @@ function Header() {
     const updatePay = (event) => {
         coreContext.setPayRate(event.target.value)
     }
+    const approveAll = () => {
+        coreContext.approveAll()
+    }
 
     return (
         <div>
@@ -27,7 +30,7 @@ function Header() {
                 <div className="collapse justify-content-end navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav">
                     <li className="px-2 nav-item">
-                        <Link className="pt-mono nav-link" to="/core">Approve All</Link>
+                        <a href="#"onClick={approveAll} className="pt-mono nav-link" to="/core">Approve All</a>
                     </li>
                     <li className="px-2 nav-item">
                         <div className="pt-mono nav-link" >Pay Rate: $<input className="pay-rate-input"onChange={updatePay} value={coreContext.payRate} type="number"></input></div>
@@ -43,10 +46,4 @@ function Header() {
     
 }
 
-export default (props) => (
-    <AuthContext.Consumer>
-        {
-            (context) => <Header {...props} context={context} />
-        }
-    </AuthContext.Consumer>
-)
+export default Header;

@@ -2,10 +2,18 @@ import React from 'react';
 import Header from './Header';
 import Greeting from './Greeting';
 import EntriesList from './EntriesList'
+import PayrollPalClient from '../payroll-pal-client';
 
 const CoreContext = React.createContext({
   payRate: null,
-  setPayRate: () => {}
+  setPayRate: () => {},
+  payPeriodStart: null,
+  payPeriodEnd: null,
+  setPayPeriodStart: () => {},
+  setPayPeriodEnd: () => {},
+  totalHours: null,
+  setTotalHours: () => {},
+  approveAll: () => {}
 })
 class Core extends React.Component {
   state = {
@@ -14,6 +22,26 @@ class Core extends React.Component {
         this.setState({
             payRate: value
         })
+    },
+    payPeriodStart: '10/21/19',
+    payPeriodEnd: '10/25/19',
+    setPayPeriodStart: (value) => {
+      this.setState({
+        payPeriodStart: value
+      })
+    },
+    setPayPeriodEnd: (value) => {
+      this.setState({
+        payPeriodEnd: value
+      })
+    },
+    setTotalHours: (value) => {
+      this.setState({
+        totalHours: value
+      })
+    },
+    approveAll: () => {
+      PayrollPalClient.approveAll()
     }
   }
   render(){

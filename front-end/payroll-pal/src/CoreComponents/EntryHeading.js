@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import TimeCard from "./TimeCard";
 
 class EntryHeading extends React.Component {
@@ -16,12 +16,7 @@ class EntryHeading extends React.Component {
                     </div>
                 </div>
     
-                <TimeCard 
-                    payPeriodStart={this.props.payPeriodStart} 
-                    payPeriodEnd={this.props.payPeriodEnd} 
-                    updatePayPeriodStart={this.props.updatePayPeriodStart} 
-                    updatePayPeriodEnd={this.props.updatePayPeriodEnd}
-                />
+                <TimeCard />
             </div>
         )
     }

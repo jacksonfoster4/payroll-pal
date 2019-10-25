@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import './css/App.css';
-
 import Login from './LoginComponents/Login'
 import Core from './CoreComponents/Core';
 import AuthContext from './AuthContext'
@@ -20,7 +19,7 @@ class App extends React.Component {
       PayrollPalClient.logout();
     },
   }
-  
+
   render(){
     return(
       <AuthContext.Provider value={this.state}>

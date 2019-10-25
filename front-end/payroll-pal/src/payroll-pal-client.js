@@ -15,26 +15,63 @@ class PayrollPalClient  {
             }
         }) */
         return {
-            "start": "October 21, 2019", "end":"October 25, 2019"
-        }
+            'totalHours': 25.5,
+            'entries': [
+                {
+                    'date': '10/21/19',
+                    'day': 'Monday',
+                    'hours': 8,
+                    'approved': true
+                },
+                {
+                    'date': '10/22/19',
+                    'day': 'Tuesday',
+                    'hours': 8,
+                    'approved': false
+                },
+                {
+                    'date': '10/23/19',
+                    'day': 'Wednesday',
+                    'hours': 9.5,
+                    'approved': false
+                },
+                {
+                    'date': '10/24/19',
+                    'day': 'Thursday',
+                    'hours': 0,
+                    'approved': false
+                },
+                {
+                    'date': '10/25/19',
+                    'day': 'Friday',
+                    'hours': 0,
+                    'approved': false
+                },
+        ]}
     }
     static logout(){
         PayrollPalClient.deleteAuthToken();
     }
-
+    static approveAll(){
+        console.log('All hours have been approved')
+    }
     static getAuthToken(){
         return Cookies.get('authToken')
     }
 
     static getIsAuthenticated(){
-        let isAuthenticated = true
+        if(Cookies.get('authToken')){
+            return true
+        }
+        else {
+            return false
+        }
         /* let isAuthenticated = ajax.post({
             'url': api.payrollpal.thefoundationworks.com/authenticate
             'body': {
                 'token': token
             }
         }) */
-        return isAuthenticated
     }
 
     static setAuthToken(token){
