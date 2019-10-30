@@ -20,7 +20,7 @@ function EditEntry(props) {
                 </select>
                 <input defaultValue={props.start} onChange={updatePunch} id={props.punchIndex} className="start" type="text" placeholder="Start"name="start" />
                 <input defaultValue={props.end} onChange={updatePunch} id={props.punchIndex} className="end" type="text" placeholder="End"name="end" />
-                <div onClick={deletePunch} className="btn btn-danger"> X </div>
+                <div id={props.punchIndex} onClick={deletePunch} className="btn btn-danger"> X </div>
              </div>
         )
     }
@@ -50,6 +50,7 @@ function EditEntry(props) {
         entry.punches.splice(punchIndex, 1)
         setPunchCounter(punchCounter - 1) // to trigger rerender
     }
+
     const updateEntry = (e) => {
         props.updateEntry(entry)
     }
@@ -65,7 +66,9 @@ function EditEntry(props) {
                     </button>
                     </div>
                     <div id={`edit-entry-body-${props.index}`}className="modal-body">
-                        { entry.punches ? entry.punches.map((punch, i) => { return <Punch entryIndex={props.entryIndex} type={punch[0]} start={punch[1]} end={punch[2]} punchIndex={i} /> }) : null }
+
+                        { entry.punches ? entry.punches.map((punch, i) => { return <Punch entryIndex={props.entryIndex} type={punch[0]} start={punch[1]} end={punch[2]} punchIndex={i} key={i} /> }) : null }
+
                         <div onClick={appendPunch} className="btn pill btn-dark">Add punch</div>
                     </div>
                     <div className="modal-footer">

@@ -19,11 +19,9 @@ function EntriesList() {
     return(
         <div>
             <EntryHeading />
-            {
-                entries['entries'].map((entry, index) => {
-                    return <Entry index={index} {...entry} />
-                })
-            }
+            { entries['entries'].map((entry, index) => { 
+                return <Entry {...entry} index={index} key={index} /> 
+            })}
         </div>
     )
     

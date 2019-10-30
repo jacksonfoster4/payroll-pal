@@ -67,13 +67,15 @@ class PayrollPalClient  {
         ]}
     }
     static updateEntry(entry) {
-        /* ajax.post({
+        /* 
+        ajax.post({
             'url': 'api.payrollpal.thefoundationworks.com/update-entry',
             'body': {
                 'token': token,
                 'entry': entry
             }
-        }) */
+        }) 
+        */
         console.log(entry.punches)
         console.log(`updated entry from ppc`)
     }

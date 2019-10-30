@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import EditEntry from './EditEntry'
 import PayrollPalClient from "../payroll-pal-client";
 

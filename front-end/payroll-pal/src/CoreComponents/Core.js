@@ -4,17 +4,8 @@ import Greeting from './Greeting';
 import EntriesList from './EntriesList'
 import PayrollPalClient from '../payroll-pal-client';
 
-const CoreContext = React.createContext({
-  payRate: null,
-  setPayRate: () => {},
-  payPeriodStart: null,
-  payPeriodEnd: null,
-  setPayPeriodStart: () => {},
-  setPayPeriodEnd: () => {},
-  totalHours: null,
-  setTotalHours: () => {},
-  approveAll: () => {}
-})
+const CoreContext = React.createContext({})
+
 class Core extends React.Component {
   state = {
     payRate: "18.00",
@@ -45,6 +36,7 @@ class Core extends React.Component {
     }
   }
   render(){
+
     return (
       <CoreContext.Provider value={this.state}>
         <div className="App">
@@ -56,6 +48,7 @@ class Core extends React.Component {
         </div>
       </CoreContext.Provider>
     );
+    
   }
 }
 
