@@ -5,13 +5,10 @@ function TimeCard(props) {
     const coreContext = useContext(CoreContext)
 
     const updateFields = () => {
-        let start = document.getElementById("start").value
-        let end = document.getElementById("end").value
+        let start = [document.getElementById("start-month").value, document.getElementById("start-day").value, document.getElementById("start-year").value] 
+        let end = [document.getElementById("end-month").value, document.getElementById("end-day").value, document.getElementById("end-year").value] 
         coreContext.setPayPeriodStart(start)
         coreContext.setPayPeriodEnd(end)
-    }
-    const handleChange = (event) => {
-        document.getElementById(event.target.id).value = event.target.value
     }
 
     return(
@@ -19,17 +16,47 @@ function TimeCard(props) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">New Entry</h5>
+                    <h5 className="pt-mono display-4 modal-title" id="exampleModalLabel">Time Card</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
                     <div className="modal-body" id="new">
-                        <input id="start" type="text" onChange={handleChange} placeholder="start"/><br></br>
-                        <input id="end" type="text" value={coreContext.payPeriodEnd} placeholder="end"/>
+                        <div className="pt-mono orange-text">Start:<br></br></div>
+                        <select className="col-3 mx-1" id="start-month">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <input className="col-3 mx-1"id="start-day" type="number" placeholder="Day"/><input className="col-3 mx-1"id="start-year" type="number" placeholder="Year"/><br></br><br></br>
+                        <div className="pt-mono orange-text">End:<br></br></div>
+                        <select className="col-3 mx-1" id="end-month">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <input className="col-3 mx-1"id="end-day" type="number" placeholder="Day"/><input className="col-3 mx-1"id="end-year" type="number" placeholder="Year"/><br></br><br></br>
                     </div>
                     <div className="modal-footer">
-                    <button onClick={updateFields} type="button" data-dismiss="modal" name="save" className="btn btn-primary">Save</button>
+                    <button onClick={updateFields} type="button" data-dismiss="modal" name="save" className="btn pill px-3 btn-success">Save</button>
                     </div>
                 </div>
             </div>

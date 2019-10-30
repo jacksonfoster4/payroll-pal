@@ -6,7 +6,7 @@ import {CoreContext} from './Core'
 
 function EntriesList() {
     const coreContext = useContext(CoreContext)
-    
+
     const payPeriodStart = coreContext.payPeriodStart
     const payPeriodEnd = coreContext.payPeriodEnd
     let entries = PayrollPalClient.getEntries(payPeriodStart, payPeriodEnd);
@@ -20,8 +20,8 @@ function EntriesList() {
         <div>
             <EntryHeading />
             {
-                entries['entries'].map(entry => {
-                    return <Entry {...entry} />
+                entries['entries'].map((entry, index) => {
+                    return <Entry index={index} {...entry} />
                 })
             }
         </div>

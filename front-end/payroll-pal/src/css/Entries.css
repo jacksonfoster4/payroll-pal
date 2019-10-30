@@ -1,6 +1,7 @@
 .entries-heading-container {
     padding-top: 2rem;
     padding-left: 2rem;
+    margin-bottom: 5%
 }
 .entries-heading {
     font-size: 24px;
@@ -19,4 +20,30 @@
 }
 .inline {
     display: inline;
+}
+select {
+    background: #26385F;
+    color: white;
+    border-radius: 15px;
+    padding: 0.25rem
+}
+input {
+    background: #26385F;
+    color: white;
+    border-radius: 15px;
+    padding: 0.25rem;
+    border: none
+}
+input::placeholder {
+    color: white
+}
+.entry {
+    margin-left: 2rem;
+    margin-right: 10%;
+    margin-bottom: 10%;
+    border: 1px solid;
+    border-radius: 15px
+}
+.entry-left {
+    border-right: 1px dashed black
 }

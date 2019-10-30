@@ -23,8 +23,8 @@ class Core extends React.Component {
             payRate: value
         })
     },
-    payPeriodStart: '10/21/19',
-    payPeriodEnd: '10/25/19',
+    payPeriodStart: [10,21,19],
+    payPeriodEnd: [10,25,19],
     setPayPeriodStart: (value) => {
       this.setState({
         payPeriodStart: value

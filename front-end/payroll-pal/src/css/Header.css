@@ -18,14 +18,10 @@ nav {
   }
   .pay-rate-input {
     border: none;
-    width:3rem;
-    color:#EF6E46
-  }
-  .pay-rate-input {
-    border: none;
-    width:3rem;
+    width:80px;
     color:#EF6E46;
     background-color: inherit;
+    padding: none
   }
   
   .pay-rate-input:focus {
