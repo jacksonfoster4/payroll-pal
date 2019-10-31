@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { CoreContext } from './Core'
 
 function EditEntry(props) {
-    const entry = props.entry
+    const [entry, setEntry] = useState(props.entry)
     const [punchCounter, setPunchCounter] = useState(entry.punches ? entry.punches.length : 0);
+    const [approved, setApproved] = useState(props.approved)
+    const coreContext = useContext(CoreContext)
 
     const Punch = (props) => {
         return (
@@ -24,6 +27,12 @@ function EditEntry(props) {
              </div>
         )
     }
+
+    useEffect(() => {
+        let tmp = Object.assign({}, entry)
+        tmp.approved=props.entry.approved;
+        setEntry(tmp)
+    }, [props.entry])
 
     const appendPunch = () => {
         entry.punches.push(['work', null, null])
@@ -55,12 +64,27 @@ function EditEntry(props) {
         props.updateEntry(entry)
     }
 
+    const approve = (e) => {
+        let tmp = Object.assign({}, entry)
+        if(tmp.approved){
+            tmp.approved=false;
+            coreContext.allApproved=false;
+        }
+        else {
+            tmp.approved=true;
+            props.setApproved(true)
+        }
+        setEntry(tmp)
+        props.setEntry(tmp)
+    }
+
     return(
         <div className="modal fade" id={`edit-entry-${props.entryIndex}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="pt-mono display-4 modal-title" id="exampleModalLabel">Edit Entry</h5>
+                        { entry.approved ? <div className="badge badge-success">Approved</div> :  <div className="badge badge-warning">Not Approved</div>}
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -72,6 +96,7 @@ function EditEntry(props) {
                         <div onClick={appendPunch} className="btn pill btn-dark">Add punch</div>
                     </div>
                     <div className="modal-footer">
+                        <button onClick={approve} type="button" name="approve" className="btn pill px-3 btn-info">Approve</button>
                         <button onClick={updateEntry} type="button" data-dismiss="modal" name="save" className="btn pill px-3 btn-success">Save</button>
                     </div>
                 </div>

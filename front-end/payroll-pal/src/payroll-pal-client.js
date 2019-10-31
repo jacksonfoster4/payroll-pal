@@ -25,7 +25,7 @@ class PayrollPalClient  {
         }) */
         return {
             'totalHours': 25.5,
-            'payRate': '18.00',
+            'payRate': 18.00,
             'payPeriodStart': [10,21,2019],
             'payPeriodEnd': [10,25,2019],
             'entries': [
@@ -88,13 +88,23 @@ class PayrollPalClient  {
             }
         }) 
         */
-        console.log(entry.punches)
         console.log(`updated entry from ppc`)
+        console.log(`Date: ${entry.date}`)
+        console.log(`Punches: ${entry.punches}`)
+        console.log(`Approved: ${entry.approved}`)
     }
     static logout(){
         PayrollPalClient.deleteAuthToken();
     }
     static approveAll(){
+        /* ajax.post({
+            'url': 'api.payrollpal.thefoundationworks.com/approve-all',
+            'body': {
+                'token': token,
+                'start': start,
+                'end': end
+            }
+        }) */
         console.log('All hours have been approved')
     }
     static getAuthToken(){

@@ -16,23 +16,26 @@ class Core extends React.Component {
         })
     },
     payPeriodStart: this.entries['payPeriodStart'],
-    payPeriodEnd: this.entries['payPeriodEnd'],
     setPayPeriodStart: (value) => {
       this.setState({
         payPeriodStart: value
       })
     },
+    payPeriodEnd: this.entries['payPeriodEnd'],
     setPayPeriodEnd: (value) => {
       this.setState({
         payPeriodEnd: value
       })
     },
+    totalHours: this.entries['totalHours'],
     setTotalHours: (value) => {
       this.setState({
         totalHours: value
       })
     },
+    allApproved: false,
     approveAll: () => {
+      this.setState({allApproved: true})
       PayrollPalClient.approveAll()
     }
   }
