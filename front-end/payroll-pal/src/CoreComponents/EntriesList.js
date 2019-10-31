@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Entry from "./Entry";
 import EntryHeading from "./EntryHeading";
 import PayrollPalClient from '../payroll-pal-client'
-import {CoreContext} from './Core'
+import { CoreContext } from './Core'
 
 function EntriesList() {
     const coreContext = useContext(CoreContext)

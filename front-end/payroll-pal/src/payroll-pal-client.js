@@ -2,6 +2,13 @@ import Cookies from 'js-cookie'
 
 class PayrollPalClient  {
     static login(username, password){
+        /* ajax.post({
+            'url': 'api.payrollpal.thefoundationworks.com/login',
+            'body': {
+                'username': username,
+                'password': password,
+            }
+        }) */
         console.log('Username: ' + username)
         console.log('Password: ' + password)
         PayrollPalClient.setAuthToken("AUTH-TOKEN-XXXXX123456XX");
@@ -18,6 +25,9 @@ class PayrollPalClient  {
         }) */
         return {
             'totalHours': 25.5,
+            'payRate': '18.00',
+            'payPeriodStart': [10,21,2019],
+            'payPeriodEnd': [10,25,2019],
             'entries': [
                 {
                     'date': [10,21,2019],
@@ -56,13 +66,15 @@ class PayrollPalClient  {
                     'date': [10,24,2019],
                     'day': 'Thursday',
                     'hours': 0,
-                    'approved': false
+                    'approved': false,
+                    'punches': []
                 },
                 {
                     'date': [10,25,2019],
                     'day': 'Friday',
                     'hours': 0,
-                    'approved': false
+                    'approved': false,
+                    'punches': []
                 },
         ]}
     }

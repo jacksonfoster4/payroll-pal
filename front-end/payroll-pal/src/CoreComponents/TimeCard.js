@@ -23,7 +23,7 @@ function TimeCard(props) {
                     </div>
                     <div className="modal-body" id="new">
                         <div className="pt-mono orange-text">Start:<br></br></div>
-                        <select className="col-3 mx-1" id="start-month">
+                        <select defaultValue={coreContext.payPeriodStart[0]} className="col-3 mx-1" id="start-month">
                             <option value="1">January</option>
                             <option value="2">February</option>
                             <option value="3">March</option>
@@ -37,9 +37,10 @@ function TimeCard(props) {
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
-                        <input className="col-3 mx-1"id="start-day" type="number" placeholder="Day"/><input className="col-3 mx-1"id="start-year" type="number" placeholder="Year"/><br></br><br></br>
+                        <input defaultValue={coreContext.payPeriodStart[1]} className="col-3 mx-1"id="start-day" type="number" placeholder="Day"/>
+                        <input defaultValue={coreContext.payPeriodStart[2]} className="col-3 mx-1"id="start-year" type="number" placeholder="Year"/><br></br><br></br>
                         <div className="pt-mono orange-text">End:<br></br></div>
-                        <select className="col-3 mx-1" id="end-month">
+                        <select defaultValue={coreContext.payPeriodEnd[0]} className="col-3 mx-1" id="end-month">
                             <option value="1">January</option>
                             <option value="2">February</option>
                             <option value="3">March</option>
@@ -53,7 +54,8 @@ function TimeCard(props) {
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
-                        <input className="col-3 mx-1"id="end-day" type="number" placeholder="Day"/><input className="col-3 mx-1"id="end-year" type="number" placeholder="Year"/><br></br><br></br>
+                        <input defaultValue={coreContext.payPeriodEnd[1]} className="col-3 mx-1"id="end-day" type="number" placeholder="Day"/>
+                        <input defaultValue={coreContext.payPeriodEnd[2]} className="col-3 mx-1"id="end-year" type="number" placeholder="Year"/><br></br><br></br>
                     </div>
                     <div className="modal-footer">
                     <button onClick={updateFields} type="button" data-dismiss="modal" name="save" className="btn pill px-3 btn-success">Save</button>
@@ -64,4 +66,4 @@ function TimeCard(props) {
     )
 }
 
-export default TimeCard
+export default TimeCard;

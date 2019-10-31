@@ -60,10 +60,10 @@ function EditEntry(props) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                    <h5 className="pt-mono display-4 modal-title" id="exampleModalLabel">Edit Entry</h5>
-                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <h5 className="pt-mono display-4 modal-title" id="exampleModalLabel">Edit Entry</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div id={`edit-entry-body-${props.index}`}className="modal-body">
 
@@ -72,7 +72,7 @@ function EditEntry(props) {
                         <div onClick={appendPunch} className="btn pill btn-dark">Add punch</div>
                     </div>
                     <div className="modal-footer">
-                    <button onClick={updateEntry} type="button" data-dismiss="modal" name="save" className="btn pill px-3 btn-success">Save</button>
+                        <button onClick={updateEntry} type="button" data-dismiss="modal" name="save" className="btn pill px-3 btn-success">Save</button>
                     </div>
                 </div>
             </div>

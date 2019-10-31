@@ -9,7 +9,8 @@ function Entry(props) {
     const updateEntry = (updatedEntry) => {
         setEntry(updatedEntry);
         PayrollPalClient.updateEntry(entry)
-    } 
+    }
+    
     return(
         <div>
             <div data-toggle="modal" data-target={`#edit-entry-${props.index}`} className="row entry">

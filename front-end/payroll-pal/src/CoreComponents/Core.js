@@ -7,15 +7,16 @@ import PayrollPalClient from '../payroll-pal-client';
 const CoreContext = React.createContext({})
 
 class Core extends React.Component {
+  entries = PayrollPalClient.getEntries();
   state = {
-    payRate: "18.00",
+    payRate: this.entries['payRate'],
     setPayRate: (value) => {
         this.setState({
             payRate: value
         })
     },
-    payPeriodStart: [10,21,19],
-    payPeriodEnd: [10,25,19],
+    payPeriodStart: this.entries['payPeriodStart'],
+    payPeriodEnd: this.entries['payPeriodEnd'],
     setPayPeriodStart: (value) => {
       this.setState({
         payPeriodStart: value
@@ -35,6 +36,7 @@ class Core extends React.Component {
       PayrollPalClient.approveAll()
     }
   }
+
   render(){
 
     return (
@@ -48,7 +50,7 @@ class Core extends React.Component {
         </div>
       </CoreContext.Provider>
     );
-    
+
   }
 }
 
