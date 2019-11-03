@@ -29,6 +29,7 @@ class PayrollPalClient  {
             'payRate': 18.00,
             'payPeriodStart': [10,21,2019],
             'payPeriodEnd': [10,27,2019],
+            'firstName': 'Jackson',
             'entries': [
                 {
                     'date': [10,21,2019],
