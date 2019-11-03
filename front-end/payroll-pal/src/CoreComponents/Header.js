@@ -22,7 +22,7 @@ function Header() {
     return (
         <div>
             <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-                <a className="ml-3 navbar-brand" href="#"><img src={LogoSmall}/></a>
+                <a className="ml-3 navbar-brand" href="/core"><img alt="Payroll Pal" src={LogoSmall}/></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -30,7 +30,7 @@ function Header() {
                 <div className="collapse justify-content-end navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav">
                     <li className="px-2 nav-item">
-                        <a href="#"onClick={approveAll} className="pt-mono nav-link" to="/core">Approve All</a>
+                        <div onClick={approveAll} className="pt-mono nav-link">Approve All</div>
                     </li>
                     <li className="px-2 nav-item">
                         <div className="pt-mono pay-rate-container nav-link" >Pay Rate: $<input className="pay-rate-input"onChange={updatePay} value={coreContext.payRate} type="number"></input></div>

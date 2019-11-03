@@ -41,9 +41,112 @@ input::placeholder {
     margin-left: 2rem;
     margin-right: 10%;
     margin-bottom: 10%;
-    border: 1px solid;
-    border-radius: 15px
+    box-shadow: 0px 5.08622px 20.3449px rgba(0, 0, 0, 0.1);
+    border-radius: 15px 15px 15px 15px;
 }
 .entry-left {
-    border-right: 1px dashed black
+
+}
+.approval {
+    position: absolute;
+    top: 30%;
+}
+.entry-right {
+    border-radius: 0 15px 15px 0;
+    color: white
+}
+.day {
+    font-size: 1.5rem;
+    display: inline;
+}
+.date {
+
+}
+.hours {
+    font-size: 2rem;
+}
+
+
+.monday-right {
+    background-color: #73A065;
+}
+.monday-left, .monday {
+    color: #73A065
+}
+.tuesday-right {
+    background-color: #335FBE;
+}
+.tuesday-left, .tuesday {
+    color: #335FBE
+}
+.wednesday-right {
+    background-color: #EF6E46;
+}
+.wednesday-left, .wednesday {
+    color: #EF6E46
+}
+.thursday-right {
+    background-color: #FFBA5F;
+}
+.thursday-left, .thursday {
+    color: #FFBA5F
+}
+.friday-right {
+    background-color: #BF84C9;
+}
+.friday-left, .friday {
+    color: #BF84C9
+}
+.saturday-right {
+    background-color: #c9c9c9;
+}
+.saturday-left {
+    color: #c9c9c9
+}
+.sunday-right {
+    background-color: #c9c9c9;
+}
+.sunday-left {
+    color: #c9c9c9
+}
+
+#time-card input, #time-card select, .punch input, .punch select {
+    width: 85%;
+    text-align: center;
+    background-color: #335FBE;
+    color: white;
+    font-size: .8rem
+}
+.w-85 {
+    width: 85%
+}
+.add-punch {
+    width: 100%;
+    text-transform: uppercase;
+}
+.black {
+    color: black
+}
+
+.edit-entry-footer {
+    display: block;
+    text-align: center;
+    border: none
+}
+.edit-entry-header {
+    border: none
+}
+.border-radius-15 {
+    border-radius: 15px
+}
+.save {
+    background-color: #283770;
+    color: white
+}
+.approve-button, .time-card-save {
+    background-color: #73A065;
+    color: white;
+}
+.punch-title {
+    font-size: .92rem;
 }

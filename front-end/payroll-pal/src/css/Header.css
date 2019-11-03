@@ -18,18 +18,20 @@ nav {
   }
   .pay-rate-input {
     border: none;
-    width:80px;
+    width: 3rem;
     color:#EF6E46;
     background-color: inherit;
-    padding: none
+    padding: 0
   }
   
   .pay-rate-input:focus {
     outline: none;
-    border-bottom: 1px solid #EF6E46;
   }
 
   .pay-rate-input input::-webkit-outer-spin-button, .pay-rate-input input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+  .nav-link {
+    cursor: pointer;
   }

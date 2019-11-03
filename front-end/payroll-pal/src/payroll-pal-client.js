@@ -14,8 +14,9 @@ class PayrollPalClient  {
         PayrollPalClient.setAuthToken("AUTH-TOKEN-XXXXX123456XX");
     }
     static getEntries(start, end){
+        /* 
         let token = Cookies.get('authToken')
-        /* ajax.post({
+        ajax.post({
             'url': 'api.payrollpal.thefoundationworks.com/get-entries',
             'body': {
                 'token': token,
@@ -27,7 +28,7 @@ class PayrollPalClient  {
             'totalHours': 25.5,
             'payRate': 18.00,
             'payPeriodStart': [10,21,2019],
-            'payPeriodEnd': [10,25,2019],
+            'payPeriodEnd': [10,27,2019],
             'entries': [
                 {
                     'date': [10,21,2019],
@@ -76,6 +77,20 @@ class PayrollPalClient  {
                     'approved': false,
                     'punches': []
                 },
+                {
+                    'date': [10,26,2019],
+                    'day': 'Saturday',
+                    'hours': 0,
+                    'approved': false,
+                    'punches': []
+                },
+                {
+                    'date': [10,27,2019],
+                    'day': 'Sunday',
+                    'hours': 0,
+                    'approved': false,
+                    'punches': []
+                },
         ]}
     }
     static updateEntry(entry) {
@@ -92,6 +107,7 @@ class PayrollPalClient  {
         console.log(`Date: ${entry.date}`)
         console.log(`Punches: ${entry.punches}`)
         console.log(`Approved: ${entry.approved}`)
+        return entry
     }
     static logout(){
         PayrollPalClient.deleteAuthToken();

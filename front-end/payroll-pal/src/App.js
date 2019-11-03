@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './css/App.css';
 import Login from './LoginComponents/Login'
 import Core from './CoreComponents/Core';

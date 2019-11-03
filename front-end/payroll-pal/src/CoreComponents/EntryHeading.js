@@ -9,7 +9,7 @@ function EntryHeading(props) {
         <div className="entries-heading-container container-fluid">
             <div className="row">
                 <div className="col-12">
-                    <h1 className="entries-heading inline ">This Week</h1>
+                    <h1 className="entries-heading inline ">Time Card</h1>
                     <button data-toggle="modal" data-target="#time-card" className="btn pt-mono inline btn-primary pill pay-period-btn">
                         <div id="pay-period-start"className="inline">{monthMap[ coreContext.payPeriodStart[0]-1 ]} {coreContext.payPeriodStart[1]}</div>
                         <span className="inline yellow-text">  -  </span>

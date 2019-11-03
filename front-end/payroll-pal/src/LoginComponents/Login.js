@@ -8,9 +8,7 @@ import '../css/App.css';
 let LogoLarge = require('../assets/Payroll-Pal-Logo Large.svg');
 
 class Login extends React.Component {
-    constructor(props){
-        super(props)
-    }
+   
     render(){
         if(this.props.context.isAuthenticated()){
             return (
@@ -22,7 +20,7 @@ class Login extends React.Component {
                 <div className="container login-container">
                     <div className="row">
                         <div className="login-logo-container pt-4 col-12">
-                            <img src={LogoLarge} width={300} height={300} />
+                            <img alt="Payroll Pal" src={LogoLarge} width={300} height={300} />
                         </div>
                     </div>
                     <LoginForm />
