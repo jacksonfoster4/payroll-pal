@@ -25,8 +25,8 @@ class App extends React.Component {
       <AuthContext.Provider value={this.state}>
         <Router>
           <Switch>
-            <Route path="/login" component={Login} />
             <ProtectedRoute path="/core" component={Core} />
+            <Route path={["/login", "/"]} component={Login} />
           </Switch>
         </Router> 
       </AuthContext.Provider>

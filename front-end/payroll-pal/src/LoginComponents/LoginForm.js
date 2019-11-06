@@ -11,9 +11,10 @@ class LoginForm extends React.Component {
 
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
-        PayrollPalClient.login(username, password);
+        if(PayrollPalClient.login({username: username, password: password})) {
+            this.props.history.push("/core") 
+        }
 
-        this.props.history.push("/core") 
     }
     render(){
         return(

@@ -150,3 +150,6 @@ input::placeholder {
 .punch-title {
     font-size: .92rem;
 }
+.delete {
+    cursor: pointer;
+}

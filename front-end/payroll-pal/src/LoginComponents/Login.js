@@ -1,14 +1,19 @@
 import React from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import AuthContext from "../AuthContext";
 import LoginForm from './LoginForm'
 import '../css/Login.css';
 import '../css/App.css';
+import PayrollPalClient from "../payroll-pal-client";
 
 let LogoLarge = require('../assets/Payroll-Pal-Logo Large.svg');
 
 class Login extends React.Component {
-   
+   demoLogin = () => {
+       if(PayrollPalClient.login({demo: true})){
+         this.props.history.push("/core") 
+       }
+   }
     render(){
         if(this.props.context.isAuthenticated()){
             return (
@@ -24,6 +29,7 @@ class Login extends React.Component {
                         </div>
                     </div>
                     <LoginForm />
+                    <div onClick={this.demoLogin} className="btn pill mt-4 btn-warning">View Demo</div>
                 </div>
             )
         }

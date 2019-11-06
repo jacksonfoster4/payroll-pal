@@ -34,7 +34,8 @@ function EditEntry(props) {
                     </div>
                     <div className="col-4 px-1"><input defaultValue={props.start} onChange={updatePunch} id={props.punchIndex} className="pt-mono start" type="text" placeholder="Start"name="start" /></div>
                     <div className="col-4 px-1 d-inline">
-                        <input defaultValue={props.end} onChange={updatePunch} id={props.punchIndex} className="pt-mono end" type="text" placeholder="End"name="end" /><div id={props.punchIndex} onClick={deletePunch} className="delete d-inline text-center"> X </div>
+                        <input defaultValue={props.end} onChange={updatePunch} id={props.punchIndex} className="pt-mono end" type="text" placeholder="End"name="end" />
+                        <div id={props.punchIndex} onClick={deletePunch} className="delete d-inline text-center"> X </div>
                     </div>
                 </div>   
             </div>
@@ -43,6 +44,7 @@ function EditEntry(props) {
     }
 
     useEffect(() => {
+        console.log(props.entry)
         let tmp = Object.assign({}, entry)
         tmp.approved=props.entry.approved;
         setEntry(tmp)

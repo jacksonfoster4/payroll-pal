@@ -14,10 +14,11 @@ body {
 }
 .login-container {
     height: 100vh;
-  }
-  .login-logo-container {
+    text-align: center;
+}
+.login-logo-container {
     text-align: center
-  }
+}
 .login-form-container {
     border: 1px solid black;
     width: 20rem;

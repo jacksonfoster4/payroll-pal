@@ -1,23 +1,47 @@
 import Cookies from 'js-cookie'
 
+const apiUrl = 'localhost:8000'
+// const apiUrl = 'payrollpal.thefoundationworks.com/api
 class PayrollPalClient  {
-    static login(username, password){
-        /* ajax.post({
-            'url': 'api.payrollpal.thefoundationworks.com/login',
+    static login(...args){
+        let username = args[0].username
+        let password = args[0].password
+        let demo = args[0].demo
+        /* 
+        if(demo) {
+            ajax.post({
+            'url': `${apiUrl}/demo`,
             'body': {
-                'username': username,
-                'password': password,
+                'demo': demo,
             }
-        }) */
-        console.log('Username: ' + username)
-        console.log('Password: ' + password)
+        })
+        }
+        else {
+            ajax.post({
+                'url': `${apiUrl}/login`,
+                'body': {
+                    'username': username,
+                    'password': password,
+                }
+            }) 
+        }*/
+        console.log(username)
+        console.log(password)
+        console.log(demo)
+        if(demo){
+            Cookies.set('demo', demo)
+        }
         PayrollPalClient.setAuthToken("AUTH-TOKEN-XXXXX123456XX");
+        // if authenticated
+        return true
+        // else
+        // return false
     }
     static getEntries(start, end){
         /* 
         let token = Cookies.get('authToken')
         ajax.post({
-            'url': 'api.payrollpal.thefoundationworks.com/get-entries',
+            'url': `${apiUrl}/get-entries`,
             'body': {
                 'token': token,
                 'start': start,
@@ -97,7 +121,7 @@ class PayrollPalClient  {
     static updateEntry(entry) {
         /* 
         ajax.post({
-            'url': 'api.payrollpal.thefoundationworks.com/update-entry',
+            'url': `${apiUrl}/update-entry`,
             'body': {
                 'token': token,
                 'entry': entry
@@ -112,10 +136,11 @@ class PayrollPalClient  {
     }
     static logout(){
         PayrollPalClient.deleteAuthToken();
+        Cookies.remove('demo')
     }
     static approveAll(){
         /* ajax.post({
-            'url': 'api.payrollpal.thefoundationworks.com/approve-all',
+            'url': `${apiUrl}/approve-all`,
             'body': {
                 'token': token,
                 'start': start,
@@ -136,7 +161,7 @@ class PayrollPalClient  {
             return false
         }
         /* let isAuthenticated = ajax.post({
-            'url': api.payrollpal.thefoundationworks.com/authenticate
+            'url': `${apiUrl}/authenticate`
             'body': {
                 'token': token
             }
