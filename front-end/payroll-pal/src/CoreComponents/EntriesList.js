@@ -9,13 +9,17 @@ function EntriesList() {
 
     const payPeriodStart = coreContext.payPeriodStart
     const payPeriodEnd = coreContext.payPeriodEnd
-    let entries = coreContext['entries']
-    PayrollPalClient.getEntries(payPeriodStart, payPeriodEnd).then(result => entries=result);
     
 
     useEffect( () => {
-        console.log(entries)
-        coreContext.setTotalHours(coreContext['totalHours'])
+        PayrollPalClient.getEntries().then(
+            (result) => {
+                coreContext.setEntries(result['entries'])
+                coreContext.setFirstName(result['firstName'])
+                coreContext.setPayRate(result['payRate'])
+                coreContext.setTotalHours(result['totalHours'])
+            }
+        )
     }, [payPeriodStart, payPeriodEnd]);
     return(
         <div>

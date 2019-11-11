@@ -3,57 +3,66 @@ import Cookies from 'js-cookie'
 const apiUrl = 'http://localhost:5000'
 // const apiUrl = 'payrollpal.thefoundationworks.com/api
 
-const JWT = () => {
-    return "JWT " + PayrollPalClient.getAuthToken()
-} 
-
 class PayrollPalClient  {
+
+    static async sendRequest(path, method, body){
+        return await fetch(`${apiUrl}${path}`, {
+            headers: new Headers({
+                "Content-Type": 'application/json',
+            }),
+            method: method ? method : 'POST',
+            body: body,
+        }).then(res => res.json())
+          .then(
+            (result) => {
+                return result
+            },
+            (error) => {
+                return error
+            }
+          )
+    }
+
+    static async sendAuthedRequest(path, method, body){
+        return await fetch(`${apiUrl}${path}`, {
+            headers: new Headers({
+                "Content-Type": 'application/json',
+                "Authorization": 'JWT ' + PayrollPalClient.getAuthToken(),
+            }),
+            method: method ? method : 'POST',
+            body: body,
+        }).then(res => res.json())
+          .then(
+            (result) => {
+                return result
+            },
+            (error) => {
+                return error
+            }
+          )
+    }
+    
     static login(...args) { 
         let username = args[0].username
         let password = args[0].password
-        let body = JSON.stringify({'username': username, 'password': password})
+        let body = JSON.stringify(
+            {'username': username, 'password': password}
+        )
         let demo = args[0].demo
-        
-        return fetch(`${apiUrl}/auth`, {
-            headers: { "Content-Type": 'application/json'},
-            method: 'POST',
-            body: body,
-        })
-        .then(res => res.json()) 
-        .then(
+
+        return PayrollPalClient.sendRequest('/auth', 'POST', body).then(
             (result) => {
                 let token = result['access_token']
                 PayrollPalClient.setAuthToken(token)
-                console.log('cookie has been set')
                 return result
             },
-
             (error) => {
-                console.log(error)
                 return error
             }
-            
         )
     }
     static async getEntries(start, end){
-        return await fetch(`${apiUrl}/get-entries`, {
-            headers: new Headers({
-                "Content-Type": 'application/json',
-                "Authorization": JWT(),
-            }),
-            method: 'POST',
-        })
-        .then(
-            (res) => res.json() ) 
-        .then(
-            (error) => {
-                return error
-            },
-            (result) => {
-                return result
-            }
-            
-        )
+        return PayrollPalClient.sendAuthedRequest('/get-entries', 'POST')
     }
     static updateEntry(entry) {
         /* 
@@ -72,6 +81,7 @@ class PayrollPalClient  {
         return entry
     }
     static logout(){
+        PayrollPalClient.sendAuthedRequest('/logout', 'POST')
         PayrollPalClient.deleteAuthToken();
         Cookies.remove('demo')
     }
@@ -90,20 +100,15 @@ class PayrollPalClient  {
         return Cookies.get('authToken')
     }
 
-    static getIsAuthenticated(){
-        if(Cookies.get('authToken')){
-            return true
-        }
-        else {
-            console.log('no token')
-            return false
-        }
-        /* let isAuthenticated = ajax.post({
-            'url': `${apiUrl}/authenticate`
-            'body': {
-                'token': token
+    static async getIsAuthenticated(){
+        return await PayrollPalClient.sendAuthedRequest('/verify', 'GET').then(
+            (result) => {
+                return true
+            },
+            (error) => {
+                return false
             }
-        }) */
+        )
     }
 
     static setAuthToken(token){
@@ -116,4 +121,13 @@ class PayrollPalClient  {
 
 }
 
+const Heartbeat = () => {
+    //let ping = 
+    setInterval(function () {
+        PayrollPalClient.sendAuthedRequest('/hearbeat', 'GET')
+    }, 30000)
+
+}
+
 export default PayrollPalClient;
+export { Heartbeat }

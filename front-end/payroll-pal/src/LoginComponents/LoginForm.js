@@ -3,6 +3,7 @@ import "../css/Login.css"
 import '../css/App.css';
 import { withRouter } from 'react-router-dom'
 import PayrollPalClient from '../payroll-pal-client'
+import AuthContext from '../AuthContext';
 
 class LoginForm extends React.Component {
     
@@ -12,8 +13,9 @@ class LoginForm extends React.Component {
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
         let loggedIn = await PayrollPalClient.login({username: username, password: password})       
-        console.log(loggedIn)
+
         if(loggedIn) {
+            this.props.context.authenticate()
             this.props.history.push("/core") 
         }
 
@@ -45,4 +47,10 @@ class LoginForm extends React.Component {
     }
 }
 
-export default withRouter(LoginForm)
+export default withRouter((props) => (
+    <AuthContext.Consumer>
+        {
+            (context) => <LoginForm context={context} {...props} />
+        }
+    </AuthContext.Consumer>
+))

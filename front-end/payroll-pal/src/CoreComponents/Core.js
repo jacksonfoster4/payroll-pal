@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Greeting from './Greeting';
 import EntriesList from './EntriesList'
-import PayrollPalClient from '../payroll-pal-client';
+import PayrollPalClient, { Heartbeat } from '../payroll-pal-client';
 import { withRouter, Redirect } from 'react-router-dom'
 import AuthContext from '../AuthContext';
 
@@ -12,11 +12,12 @@ class Core extends React.Component {
   
 
   componentDidMount(){
+    Heartbeat()
+
     PayrollPalClient.getEntries()
     .then((result) => {
         if(result.error){
           if(result.status_code === 401){
-            console.log('test')
             this.setState({error401: true})
             this.props.context.logout()
           }
@@ -38,8 +39,6 @@ class Core extends React.Component {
           })
         }
         
-      }).catch(error => {
-        
       })
   }
 
@@ -47,6 +46,9 @@ class Core extends React.Component {
     loading: true,
     error: null,
     error401: null,
+    setEntries: (value) => {
+      this.setState({ entries: value })
+    },
     setPayRate: (value) => {
         this.setState({ payRate: value })
     },
@@ -66,6 +68,9 @@ class Core extends React.Component {
     approveAll: () => {
       this.setState({ allApproved: true })
       PayrollPalClient.approveAll()
+    },
+    setFirstName: (value) => {
+      this.setState({ firstName: value })
     }
   }
 

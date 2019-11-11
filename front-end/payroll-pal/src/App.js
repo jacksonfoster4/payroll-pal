@@ -9,14 +9,25 @@ import PayrollPalClient from './payroll-pal-client';
 
 class App extends React.Component {
   state = {
-    isAuthenticated: () => {
-      return PayrollPalClient.getIsAuthenticated()
+    isAuthenticated: false,
+    
+    authenticate: () => {
+      PayrollPalClient.getIsAuthenticated().then( 
+        (result) => {
+          this.setState({
+            isAuthenticated: result
+          })
+          console.log(result)
+      })
     },
     authToken: () => {
       return PayrollPalClient.getAuthToken()
     },
     logout: () => {
       PayrollPalClient.logout();
+      this.setState({
+        isAuthenticated: false
+      })
     },
   }
 

@@ -15,7 +15,7 @@ class Login extends React.Component {
        }
    }
     render(){
-        if(this.props.context.isAuthenticated()){
+        if(this.props.context.isAuthenticated){
             return (
                 <Redirect to="/core" />
             )
