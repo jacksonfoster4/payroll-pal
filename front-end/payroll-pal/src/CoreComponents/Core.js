@@ -3,37 +3,49 @@ import Header from './Header';
 import Greeting from './Greeting';
 import EntriesList from './EntriesList'
 import PayrollPalClient from '../payroll-pal-client';
+import { withRouter } from 'react-router-dom'
 
 const CoreContext = React.createContext({})
 
 class Core extends React.Component {
+  
 
-  entries = PayrollPalClient.getEntries();
+  componentDidMount(){
+    let entries;
+    PayrollPalClient.getEntries().then(result => {
+        console.log(result)
+        this.setState({
+          loading: false,
+          entries: result['entries'],
+          firstName: result['firstName'],
+          payPeriodStart: result['payPeriodStart'],
+          payPeriodEnd: result['payPeriodEnd'],
+          payRate: result['payRate'],
+          totalHours: result['totalHours'],
+          allApproved: false,
+        })
+      })
+  }
 
   state = {
-    firstName: this.entries['firstName'],
+    loading: true,
     
-    payRate: this.entries['payRate'],
     setPayRate: (value) => {
         this.setState({ payRate: value })
     },
 
-    payPeriodStart: this.entries['payPeriodStart'],
     setPayPeriodStart: (value) => {
       this.setState({ payPeriodStart: value })
     },
 
-    payPeriodEnd: this.entries['payPeriodEnd'],
     setPayPeriodEnd: (value) => {
       this.setState({ payPeriodEnd: value })
     },
 
-    totalHours: this.entries['totalHours'],
     setTotalHours: (value) => {
       this.setState({ totalHours: value })
     },
 
-    allApproved: false,
     approveAll: () => {
       this.setState({ allApproved: true })
       PayrollPalClient.approveAll()
@@ -41,14 +53,21 @@ class Core extends React.Component {
   }
 
   render(){
-
+    console.log(this.state)
     return (
       <CoreContext.Provider value={this.state}>
         <div className="App">
           <Header />
           <div className="App-body">
-            <Greeting />
-            <EntriesList />
+          { this.state.loading ? 
+            <div className="text-center container-fluid">
+              <div className="display-4 loading">Loading...</div>
+              </div> : 
+            <div>
+              <Greeting />
+              <EntriesList />
+            </div>
+            }
           </div> 
         </div>
       </CoreContext.Provider>
@@ -57,5 +76,5 @@ class Core extends React.Component {
   }
 }
 
-export default Core;
+export default withRouter(Core);
 export { CoreContext };

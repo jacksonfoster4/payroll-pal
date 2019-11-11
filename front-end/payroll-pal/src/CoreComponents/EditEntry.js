@@ -44,7 +44,6 @@ function EditEntry(props) {
     }
 
     useEffect(() => {
-        console.log(props.entry)
         let tmp = Object.assign({}, entry)
         tmp.approved=props.entry.approved;
         setEntry(tmp)

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Entry from "./Entry";
 import EntryHeading from "./EntryHeading";
 import PayrollPalClient from '../payroll-pal-client'
@@ -9,22 +9,23 @@ function EntriesList() {
 
     const payPeriodStart = coreContext.payPeriodStart
     const payPeriodEnd = coreContext.payPeriodEnd
-    let entries = PayrollPalClient.getEntries(payPeriodStart, payPeriodEnd);
+    let entries = coreContext['entries']
+    PayrollPalClient.getEntries(payPeriodStart, payPeriodEnd).then(result => entries=result);
+    
 
     useEffect( () => {
-        entries = PayrollPalClient.getEntries(payPeriodStart, payPeriodEnd)
-        coreContext.setTotalHours(entries['totalHours'])
+        console.log(entries)
+        coreContext.setTotalHours(coreContext['totalHours'])
     }, [payPeriodStart, payPeriodEnd]);
-
     return(
         <div>
             <EntryHeading />
-            { entries['entries'].map((entry, index) => {
+            { coreContext['entries'] ? coreContext['entries'].map((entry, index) => {
                 return <Entry {...entry} index={index} key={index} /> 
-            })}
+            }) : null}
+
         </div>
     )
-    
 }
 
 export default EntriesList;

@@ -11,6 +11,7 @@ class ProtectedRoute extends React.Component {
             )
         }
         else {
+            console.log("redirected from protected route")
             return(
                 <Redirect to="/login" />
             )

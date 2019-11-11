@@ -6,12 +6,14 @@ import PayrollPalClient from '../payroll-pal-client'
 
 class LoginForm extends React.Component {
     
-    login = (e) => {
+    login = async (e) => {
         e.preventDefault();
 
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
-        if(PayrollPalClient.login({username: username, password: password})) {
+        let loggedIn = await PayrollPalClient.login({username: username, password: password})       
+        console.log(loggedIn)
+        if(loggedIn) {
             this.props.history.push("/core") 
         }
 
