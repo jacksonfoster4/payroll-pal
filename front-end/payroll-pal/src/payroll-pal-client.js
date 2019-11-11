@@ -36,24 +36,24 @@ class PayrollPalClient  {
         )
     }
     static async getEntries(start, end){
-        let results;
-        await fetch(`${apiUrl}/get-entries`, {
+        return await fetch(`${apiUrl}/get-entries`, {
             headers: new Headers({
                 "Content-Type": 'application/json',
                 "Authorization": JWT(),
             }),
             method: 'POST',
         })
-        .then(res => res.json()) 
         .then(
-            (result) => {
-                results = result
-            },
+            (res) => res.json() ) 
+        .then(
             (error) => {
-                results = error
+                return error
+            },
+            (result) => {
+                return result
             }
+            
         )
-        return results
     }
     static updateEntry(entry) {
         /* 

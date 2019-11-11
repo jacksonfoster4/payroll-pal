@@ -13,7 +13,10 @@ class ProtectedRoute extends React.Component {
         else {
             console.log("redirected from protected route")
             return(
-                <Redirect to="/login" />
+                <Redirect to={{
+                    pathname: '/login',
+                    state: { error: "Whoops! You need to be logged in!" }
+                }} />
             )
         }
     }

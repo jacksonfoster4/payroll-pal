@@ -30,6 +30,7 @@ class Login extends React.Component {
                     </div>
                     <LoginForm />
                     <div onClick={this.demoLogin} className="btn pill mt-4 btn-warning">View Demo</div>
+                    <br></br>{ this.props.location.state ? <div className="btn btn-danger">{this.props.location.state.error}</div> : <div></div> }
                 </div>
             )
         }
