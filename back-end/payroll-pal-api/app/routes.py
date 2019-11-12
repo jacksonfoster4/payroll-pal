@@ -87,6 +87,15 @@ def login():
     return "You've been logged In!"
 
 @app.route('/update-entry', methods=['POST'])
+@jwt_required()
 def update_entry():
-    return "TRUE"
+    pickle_id = current_identity.id
+    pp = load_pickled(current_identity.id)
+    entry = request.get_json()['entry']
+    try:
+        updated_entry = pp.update_entry(entry)
+        return jsonify({'entry': updated_entry})
+    except:
+        return jsonify(entry=entry, error='Something went wrong!')
+
     

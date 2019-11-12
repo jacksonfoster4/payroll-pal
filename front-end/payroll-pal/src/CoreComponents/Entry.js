@@ -27,7 +27,15 @@ function Entry(props) {
     }, [coreContext.allApproved])
 
     const updateEntry = (updatedEntry) => {
-        setEntry(PayrollPalClient.updateEntry(updatedEntry))
+        PayrollPalClient.updateEntry(updatedEntry).then( result => {
+            console.log(result['entry'])
+            if(result['error']){
+                coreContext.error = result['error']
+            }
+            else {
+                setEntry(result['entry'])
+            }
+        })
     }
 
     return(

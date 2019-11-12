@@ -1,4 +1,3 @@
-app/tmp/*
 *.pyc
 payroll-pal-env
 payroll-pal-api/app/tmp/*

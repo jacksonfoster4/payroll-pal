@@ -1,4 +1,5 @@
-import os, pickle
+import os, pickle, json
+root = os.path.abspath(os.path.dirname(__file__))
 
 class PayrollPal(object):
     def __init__(self, username, password):
@@ -7,75 +8,14 @@ class PayrollPal(object):
         self.password = password
         #self.driver = webdriver.Chrome()
         self.logged_in = False
-        self.entries = entries = {
-            'totalHours': 25.5,
-            'payRate': 18.00,
-            'payPeriodStart': [10,21,2019],
-            'payPeriodEnd': [10,27,2019],
-            'firstName': 'Jackson',
-            'entries': [
-                {
-                    'date': [10,21,2019],
-                    'day': 'Monday',
-                    'hours': 8,
-                    'approved': True,
-                    'punches': [
-                        ['work', '9:00 AM', '2:30 PM'],
-                        ['meal', '2:30 PM', '3:00 PM'],
-                        ['meal', '3:00 PM', '5:30 PM'],
-                    ]
-                },
-                {
-                    'date': [10,22,2019],
-                    'day': 'Tuesday',
-                    'hours': 8,
-                    'approved': False,
-                    'punches': [
-                        ['work', '9:00 AM', '2:30 PM'],
-                        ['meal', '2:30 PM', '3:00 PM'],
-                        ['meal', '3:00 PM', '5:30 PM'],
-                    ]
-                },
-                {
-                    'date': [10,23,2019],
-                    'day': 'Wednesday',
-                    'hours': 9.5,
-                    'approved': False,
-                    'punches': [
-                        ['work', '9:00 AM', '2:30 PM'],
-                        ['meal', '2:30 PM', '3:00 PM'],
-                        ['work', '3:00 PM', '5:30 PM'],
-                    ]
-                },
-                {
-                    'date': [10,24,2019],
-                    'day': 'Thursday',
-                    'hours': 0,
-                    'approved': False,
-                    'punches': []
-                },
-                {
-                    'date': [10,25,2019],
-                    'day': 'Friday',
-                    'hours': 0,
-                    'approved': False,
-                    'punches': []
-                },
-                {
-                    'date': [10,26,2019],
-                    'day': 'Saturday',
-                    'hours': 0,
-                    'approved': False,
-                    'punches': []
-                },
-                {
-                    'date': [10,27,2019],
-                    'day': 'Sunday',
-                    'hours': 0,
-                    'approved': False,
-                    'punches': []
-                },
-        ]}
+        self.entries = None
+        with open('{}/mock-data.json'.format(root)) as json_file:
+            self.entries = json.load(json_file)
+        
+    def __str__(self):
+            return "PayrollPal(username='{}', id='{}')".format( self.username, self.id )
+
+    # auth functions
 
     def login(self):
         # login with driver
@@ -86,7 +26,6 @@ class PayrollPal(object):
         else:
             self.logged_in = logged_in
             return False
-    
 
     def logout(self):
         pp_obj_id = self.id
@@ -98,10 +37,47 @@ class PayrollPal(object):
         # check for session expiration
         # if logged_in == False, `identity()` will return 401
         self.logged_in = True
+    
+
+    # entry == each day
+    # app functions
+    def get_entries(self, start, end):
+        return self.entries
+
+    def update_entry(self, entry):
+        data = None
+        date = entry['date']
+        # load data to temp variable
+        with open('{}/mock-data.json'.format(root), 'rb') as json_file:
+            data = json.load(json_file)
+
+        # write new data to temp variable
+        for i, l_entry in enumerate(data['entries']):
+            if l_entry['date'] == entry['date']:
+                data['entries'][i] = entry
+
+        # write temp variable to data
+        with open('{}/mock-data.json'.format(root), 'w') as json_file:
+            json.dump(data, json_file, indent=4)
+        
+        return data[date]        
+
+    def approve_all(self, start, end):
+        pass
+
+    def is_session_active(self):
+        pass
 
 
-    def __str__(self):
-        return "PayrollPal(id='%s')" % self.id
+
+
+
+
+
+
+
+
+
 
 def load_pickled(id):
         root = os.path.abspath(os.path.dirname(__file__))

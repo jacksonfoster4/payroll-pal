@@ -18,7 +18,7 @@ function EntriesList() {
                 coreContext.setFirstName(result['firstName'])
                 coreContext.setPayRate(result['payRate'])
                 coreContext.setTotalHours(result['totalHours'])
-            }
+            },
         )
     }, [payPeriodStart, payPeriodEnd]);
     return(

@@ -9,10 +9,17 @@ import AuthContext from '../AuthContext';
 const CoreContext = React.createContext({})
 
 class Core extends React.Component {
-  
-
+ 
   componentDidMount(){
-    Heartbeat()
+    let self = this
+    let hb = setInterval(function () {
+      Heartbeat().catch(
+        (error) => {
+          clearInterval(hb)
+          self.props.context.logout()
+        }
+      )
+    }, 30000)
 
     PayrollPalClient.getEntries()
     .then((result) => {

@@ -33,7 +33,7 @@ function Header() {
                         <div onClick={approveAll} className="pt-mono nav-link">Approve All</div>
                     </li>
                     <li className="px-2 nav-item">
-                        <div className="pt-mono pay-rate-container nav-link" >Pay Rate: $<input className="pay-rate-input"onChange={updatePay} value={coreContext.payRate} type="number"></input></div>
+                        <div className="pt-mono pay-rate-container nav-link" >Pay Rate: $<input className="pay-rate-input"onChange={updatePay} defaultValue={coreContext.payRate} type="number"></input></div>
                     </li>
                     <li className="px-2 nav-item">
                         <Link to="/login" className="pt-mono nav-link" onClick={logout}>Logout</Link>
