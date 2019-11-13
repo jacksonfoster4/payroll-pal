@@ -28,12 +28,11 @@ function Entry(props) {
 
     const updateEntry = (updatedEntry) => {
         PayrollPalClient.updateEntry(updatedEntry).then( result => {
-            console.log(result['entry'])
             if(result['error']){
                 coreContext.error = result['error']
             }
             else {
-                setEntry(result['entry'])
+                coreContext.setEntries(result['entries'])
             }
         })
     }

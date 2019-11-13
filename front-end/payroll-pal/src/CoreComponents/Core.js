@@ -2,53 +2,14 @@ import React from 'react';
 import Header from './Header';
 import Greeting from './Greeting';
 import EntriesList from './EntriesList'
-import PayrollPalClient, { Heartbeat } from '../payroll-pal-client';
-import { withRouter, Redirect } from 'react-router-dom'
+import PayrollPalClient from '../payroll-pal-client';
+import { Redirect } from 'react-router-dom'
 import AuthContext from '../AuthContext';
 
 const CoreContext = React.createContext({})
 
 class Core extends React.Component {
- 
-  componentDidMount(){
-    let self = this
-    let hb = setInterval(function () {
-      Heartbeat().catch(
-        (error) => {
-          clearInterval(hb)
-          self.props.context.logout()
-        }
-      )
-    }, 30000)
-
-    PayrollPalClient.getEntries()
-    .then((result) => {
-        if(result.error){
-          if(result.status_code === 401){
-            this.setState({error401: true})
-            this.props.context.logout()
-          }
-          else {
-            this.setState({error: true})
-            this.props.context.logout()
-          }
-        }
-        else {
-          this.setState({
-            loading: false,
-            entries: result['entries'],
-            firstName: result['firstName'],
-            payPeriodStart: result['payPeriodStart'],
-            payPeriodEnd: result['payPeriodEnd'],
-            payRate: result['payRate'],
-            totalHours: result['totalHours'],
-            allApproved: false,
-          })
-        }
-        
-      })
-  }
-
+  
   state = {
     loading: true,
     error: null,
@@ -73,11 +34,18 @@ class Core extends React.Component {
     },
 
     approveAll: () => {
-      this.setState({ allApproved: true })
-      PayrollPalClient.approveAll()
+      PayrollPalClient.approveAll(this.state.payPeriodStart, this.state.payPeriodEnd).then( 
+        (result) => {
+          this.setState(result)
+          this.setState({ allApproved: true })
+        }
+      )
     },
     setFirstName: (value) => {
       this.setState({ firstName: value })
+    },
+    setState: (values) => {
+      this.setState({ ...values })
     }
   }
 
@@ -93,16 +61,11 @@ class Core extends React.Component {
         <CoreContext.Provider value={this.state}>
           <div className="App">
             <Header />
-            <div className="App-body">
-            { this.state.loading ? 
-              <div className="text-center container-fluid">
-                <div className="display-4 loading">Loading...</div>
-                </div> : 
+            <div className="App-body">                
               <div>
                 <Greeting />
                 <EntriesList />
               </div>
-              }
             </div> 
           </div>
         </CoreContext.Provider>

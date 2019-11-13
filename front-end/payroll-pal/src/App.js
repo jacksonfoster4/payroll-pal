@@ -32,9 +32,11 @@ class App extends React.Component {
     },
 
   }
-  
-  componentDidMount() {
-    this.state.authenticate()
+
+  componentDidMount(){
+    if(PayrollPalClient.getAuthToken()){
+      this.state.authenticate()
+    }
   }
 
   render(){

@@ -95,6 +95,7 @@ function EditEntry(props) {
 
     return(
         <div className="modal fade" id={`edit-entry-${props.entryIndex}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            { console.log(entry.approved)}
             <div className="modal-dialog" role="document">
                 <div className="modal-content border-radius-15 p-2">
                     <div className="modal-header d-block edit-entry-header">
@@ -104,7 +105,6 @@ function EditEntry(props) {
                         <h5 className={`display-4 modal-title ${ colorMap[props.entry.day]}`} id="exampleModalLabel">{ props.entry.day }</h5>
                         <h5 className={`${ colorMap[props.entry.day]} pt-mono d-inline`} id="exampleModalLabel">{monthMap[ props.entry.date[0]-1 ]} {props.entry.date[1]} {props.entry.date[2]}</h5>
                         { entry.approved ? <div className="badge ml-2 d-inline badge-success">Approved</div> :  <div className="badge ml-2 d-inline badge-warning">Not Approved</div>}
-                       
                     </div>
                     <div id={`edit-entry-body-${props.entryIndex}`}className="pt-4 modal-body">
                         <div className="px-3 container-fluid">

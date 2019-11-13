@@ -40,6 +40,7 @@ class PayrollPalClient  {
         .then( res => res.json() )
         .then(
             (result) => {
+                console.log(result)
                 return result
             },
             (error) => {
@@ -67,7 +68,18 @@ class PayrollPalClient  {
     }
 
     static getEntries(start, end){
+        if(!start) {
+            let d = new Date('October 21, 2019')
+            start = [d.getMonth()+1, d.getDate(), d.getFullYear()]
+        }
+
+        if(!end) {
+            let d = new Date('October 27, 2019')
+            end = [d.getMonth()+1, d.getDate(), d.getFullYear()]
+        }
+        
         let body = {'start': start, 'end': end}
+
         return PayrollPalClient.sendAuthedRequest('/get-entries', 'POST', body)
     }
 
@@ -77,12 +89,13 @@ class PayrollPalClient  {
     }
 
     static approveAll(start, end){
+        console.log(start)
+        console.log(end)
         let body = {'start': start, 'end': end}
         return PayrollPalClient.sendAuthedRequest('/approve-all', 'POST', body)
     }
 
     static logout(){
-        PayrollPalClient.sendAuthedRequest('/logout', 'POST')
         PayrollPalClient.deleteAuthToken();
         Cookies.remove('demo')
     }

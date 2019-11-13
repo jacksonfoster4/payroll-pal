@@ -64,7 +64,10 @@ def heartbeat():
     return ('', 204)
 
 
-
+@app.before_request
+def print_request():
+    pass
+    #print(request.get_json())
     
 # app routes
 
@@ -74,17 +77,17 @@ def heartbeat():
 def get_entries():
     pickle_id = current_identity.id
     pp = load_pickled(current_identity.id)
-    return jsonify(pp.entries)
+
+    start = request.get_json()['start'] 
+    end = request.get_json()['end']
+    data = pp.get_entries(start, end)
+    return jsonify(data)
 
 @app.route('/demo', methods=['POST'])
 def demo():
-    return jsonify({'entries': entries})
-
-@app.route('/login', methods=['POST'])
-def login():
-    print(request.form['username'])
-    print(request.form['password'])
-    return "You've been logged In!"
+    pickle_id = current_identity.id
+    pp = load_pickled(current_identity.id)
+    return jsonify(pp.entries)
 
 @app.route('/update-entry', methods=['POST'])
 @jwt_required()
@@ -92,10 +95,21 @@ def update_entry():
     pickle_id = current_identity.id
     pp = load_pickled(current_identity.id)
     entry = request.get_json()['entry']
-    try:
-        updated_entry = pp.update_entry(entry)
-        return jsonify({'entry': updated_entry})
-    except:
-        return jsonify(entry=entry, error='Something went wrong!')
+    entry['date'] = list(map(lambda x: int(x), entry['date']))
+    updated_data = pp.update_entry(entry)
 
+    return jsonify(updated_data)
+
+@app.route('/approve-all', methods=['POST'])
+@jwt_required()
+def approve_all():
+    pickle_id = current_identity.id
+    pp = load_pickled(current_identity.id)
+
+    start = request.get_json()['start'] 
+    end = request.get_json()['end']
+
+    updated_data = pp.approve_all(start, end)
+
+    return jsonify(updated_data)
     

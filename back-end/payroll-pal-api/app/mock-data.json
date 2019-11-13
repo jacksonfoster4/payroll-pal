@@ -14,7 +14,6 @@
     "firstName": "Jackson",
     "entries": [
         {
-            "approved": "True",
             "date": [
                 10,
                 21,
@@ -22,34 +21,7 @@
             ],
             "day": "Monday",
             "hours": 8,
-            "index": 0,
-            "punches": [
-                [
-                    "personal_time_off",
-                    "9:00 AM",
-                    "2:30 PM"
-                ],
-                [
-                    "meal",
-                    "9:00 am",
-                    "5:30 pm"
-                ],
-                [
-                    "jury_duty",
-                    null,
-                    null
-                ]
-            ]
-        },
-        {
-            "date": [
-                10,
-                22,
-                2019
-            ],
-            "day": "Tuesday",
-            "hours": 8,
-            "approved": "False",
+            "approved": true,
             "punches": [
                 [
                     "work",
@@ -69,6 +41,34 @@
             ]
         },
         {
+            "approved": true,
+            "date": [
+                10,
+                22,
+                2019
+            ],
+            "day": "Tuesday",
+            "hours": 8,
+            "punches": [
+                [
+                    "work",
+                    "9:00 AM",
+                    "2:30 PM"
+                ],
+                [
+                    "meal",
+                    "2:30 PM",
+                    "3:00 PM"
+                ],
+                [
+                    "meal",
+                    "3:00 PM",
+                    "5:30 PM"
+                ]
+            ],
+            "index": 1
+        },
+        {
             "date": [
                 10,
                 23,
@@ -76,7 +76,7 @@
             ],
             "day": "Wednesday",
             "hours": 9.5,
-            "approved": "False",
+            "approved": true,
             "punches": [
                 [
                     "work",
@@ -103,7 +103,7 @@
             ],
             "day": "Thursday",
             "hours": 0,
-            "approved": "False",
+            "approved": true,
             "punches": []
         },
         {
@@ -114,7 +114,7 @@
             ],
             "day": "Friday",
             "hours": 0,
-            "approved": "False",
+            "approved": true,
             "punches": []
         },
         {
@@ -125,7 +125,7 @@
             ],
             "day": "Saturday",
             "hours": 0,
-            "approved": "False",
+            "approved": true,
             "punches": []
         },
         {
@@ -136,7 +136,7 @@
             ],
             "day": "Sunday",
             "hours": 0,
-            "approved": "False",
+            "approved": true,
             "punches": []
         }
     ]

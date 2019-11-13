@@ -11,6 +11,7 @@ let LogoLarge = require('../assets/Payroll-Pal-Logo Large.svg');
 class Login extends React.Component {
    demoLogin = () => {
        if(PayrollPalClient.login({demo: true})){
+         this.props.context.authenticate()
          this.props.history.push("/core") 
        }
    }

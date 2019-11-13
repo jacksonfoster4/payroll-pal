@@ -42,7 +42,24 @@ class PayrollPal(object):
     # entry == each day
     # app functions
     def get_entries(self, start, end):
-        return self.entries
+        data = None
+        # load data to temp variable
+        with open('{}/mock-data.json'.format(root), 'rb') as json_file:
+            data = json.load(json_file)
+
+        start_i = 0
+        end_i = len(data['entries'])
+        for i, entry in enumerate(data['entries']):
+            for j, el in enumerate(entry['date']): 
+                entry['date'][j] = str(el)
+
+            if entry['date'] == start:
+                start_i = i
+            if entry['date'] == end:
+                end_i = i+1
+
+        data['entries'] = data['entries'][start_i:end_i]
+        return data
 
     def update_entry(self, entry):
         data = None
@@ -56,14 +73,30 @@ class PayrollPal(object):
             if l_entry['date'] == entry['date']:
                 data['entries'][i] = entry
 
+
         # write temp variable to data
         with open('{}/mock-data.json'.format(root), 'w') as json_file:
             json.dump(data, json_file, indent=4)
         
-        return data[date]        
+        return data       
 
     def approve_all(self, start, end):
-        pass
+        data = None
+
+        # load data to temp variable
+        with open('{}/mock-data.json'.format(root), 'rb') as json_file:
+            data = json.load(json_file)
+            
+        # write new data to temp variable
+        for i, entry in enumerate(data['entries']):
+            data['entries'][i]['approved'] = True
+
+
+        # write temp variable to data
+        with open('{}/mock-data.json'.format(root), 'w') as json_file:
+            json.dump(data, json_file, indent=4)
+        
+        return data
 
     def is_session_active(self):
         pass
