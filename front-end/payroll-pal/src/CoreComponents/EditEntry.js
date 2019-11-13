@@ -95,7 +95,6 @@ function EditEntry(props) {
 
     return(
         <div className="modal fade" id={`edit-entry-${props.entryIndex}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            { console.log(entry.approved)}
             <div className="modal-dialog" role="document">
                 <div className="modal-content border-radius-15 p-2">
                     <div className="modal-header d-block edit-entry-header">

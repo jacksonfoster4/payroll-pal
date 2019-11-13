@@ -17,6 +17,7 @@ r = Redis('localhost')
 # pp id is encoded in jwt, so jwt acts as the session cookie
 # this keeps tmp/ and all active sessions coupled. when session is destroyed, pickle is destroyed. if pickle is destroyed, 401 is returned
 # it also happens that i couldnt figure out how to get session to work (CORs and fetch problems) and this seems to work without issue. no coincidence whatsoever
+
 def authenticate(username, password):
     pp = PayrollPal(username, password)
     if pp.login():
@@ -34,6 +35,7 @@ def identity(payload):
             return pp
 
 jwt = JWT(app, authenticate, identity)
+
 
 # auth routes
 

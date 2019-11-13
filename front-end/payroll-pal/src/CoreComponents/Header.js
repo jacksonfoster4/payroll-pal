@@ -17,6 +17,7 @@ function Header() {
     }
     const approveAll = () => {
         coreContext.approveAll()
+        coreContext.setMessage("All hours have been approved!")
     }
 
     return (

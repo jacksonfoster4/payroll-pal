@@ -32,9 +32,10 @@ class Login extends React.Component {
                             <img alt="Payroll Pal" src={LogoLarge} width={300} height={300} />
                         </div>
                     </div>
+                    { this.props.location.state && this.props.location.state.error ? <div className="alert mx-5 alert-danger">{this.props.location.state.error}</div> : <div></div> }
                     <LoginForm />
                     <div onClick={this.demoLogin} className="btn pill mt-4 btn-warning">View Demo</div>
-                    <br></br>{ this.props.location.state && this.props.location.state.error ? <div className="btn btn-danger">{this.props.location.state.error}</div> : <div></div> }
+                    <br></br>
                 </div>
             )
         }

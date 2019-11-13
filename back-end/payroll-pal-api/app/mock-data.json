@@ -49,6 +49,7 @@
             ],
             "day": "Tuesday",
             "hours": 8,
+            "index": 1,
             "punches": [
                 [
                     "work",
@@ -65,8 +66,7 @@
                     "3:00 PM",
                     "5:30 PM"
                 ]
-            ],
-            "index": 1
+            ]
         },
         {
             "date": [
@@ -96,6 +96,7 @@
             ]
         },
         {
+            "approved": true,
             "date": [
                 10,
                 24,
@@ -103,8 +104,14 @@
             ],
             "day": "Thursday",
             "hours": 0,
-            "approved": true,
-            "punches": []
+            "punches": [
+                [
+                    "bereavment",
+                    "9:00 am",
+                    "5:30 pm"
+                ]
+            ],
+            "index": 3
         },
         {
             "date": [
