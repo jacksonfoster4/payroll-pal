@@ -5,7 +5,7 @@ from selenium import webdriver
 import pickle, os
 from redis import Redis
 from .payroll_pal_client import PayrollPal, load_pickled
-
+from datetime import timedelta
 r = Redis('localhost') 
 
 # when to destroy pickle file
@@ -34,8 +34,8 @@ def identity(payload):
         if pp.logged_in:
             return pp
 
+app.config.setdefault('JWT_EXPIRATION_DELTA', timedelta(seconds=40000))
 jwt = JWT(app, authenticate, identity)
-
 
 # auth routes
 
@@ -68,8 +68,7 @@ def heartbeat():
 
 @app.before_request
 def print_request():
-    pass
-    #print(request.get_json())
+    print(request.get_json())
     
 # app routes
 
