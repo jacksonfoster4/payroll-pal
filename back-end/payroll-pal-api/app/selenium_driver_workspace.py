@@ -1,4 +1,5 @@
 import os, pickle, json
+import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,6 +12,7 @@ class PayrollPal(object):
     def __init__(self, username, password):
         self.id = id(self)
         self.bbsi_client_id = 'TN3111'
+        self.bbsi_url = "https://bbsitimenet.centralservers.com/Login.aspx"
         self.driver = webdriver.Chrome()
         self.username = username
         self.password = password
@@ -26,7 +28,7 @@ class PayrollPal(object):
 
     def login(self):
         # login with driver
-        self.driver.get("https://bbsitimenet.centralservers.com/Login.aspx")
+        self.driver.get(self.bbsi_url)
 
         client_id = self.driver.find_element_by_id("txtCustomerAlias")
         client_id.send_keys(self.bbsi_client_id)
@@ -41,6 +43,16 @@ class PayrollPal(object):
         login_button = self.driver.find_element_by_id("btnLogin")
         login_button.click()
 
+        if self.driver.title == 'Employee Home':
+            self.logged_in = True
+            print("Logged In!")
+        else:
+            error = self.driver.find_element_by_id("lblError")
+            print(error.text)
+
+
+    def set_entries_range(self, start, end):
+        # open actions tab
         actions_button = self.driver.find_element_by_id("divActions")
         actions_button.click()
 
@@ -50,26 +62,39 @@ class PayrollPal(object):
 
         # set date ranges
         start_date = self.driver.find_element_by_id("fromTSDate")
-        len_of_start = len(start_date.get_attribute("value"))
-        for i in range(len_of_start):
-            start_date.send_keys(Keys.BACKSPACE)
-        start_date.send_keys('10/30/2019')
-
         end_date = self.driver.find_element_by_id("toTSDate")
-        len_of_end = len(start_date.get_attribute("value"))
-        for i in range(len_of_end):
-            end_date.send_keys(Keys.BACKSPACE)
-        end_date.send_keys('11/02/2019')
 
-        # submit date range
+        if start:
+            len_of_start = len(start_date.get_attribute("value"))
+            for i in range(len_of_start):
+                start_date.send_keys(Keys.BACKSPACE)
+
+            start_date.send_keys(start)
+
+        if end:
+            len_of_end = len(start_date.get_attribute("value"))
+            for i in range(len_of_end):
+                end_date.send_keys(Keys.BACKSPACE)
+
+            end_date.send_keys(end)
+
+        # submit date ranges
         end_date.send_keys(Keys.ENTER)
 
+        #self.driver.find_element_by_class_name('emp-popup-backButton').click()
+    
+    def set_entry(self, date, punches):
+        # find entries
+        entries = self.driver.find_elements_by_css_selector('#divTimeSheetEntryContainer form #divFloatingLayer .emp-action-popup-tsListItem span:nth-child(2)')
+        entry = None
+        for element in entries:
+            if element.text == date:
+                entry = element
+        for punch in punches:
+            pass
+                
 
-        if self.driver.title == 'Employee Home':
-            print("Logged In!")
-        else:
-            error = self.driver.find_element_by_id("lblError")
-            print(error.text)
+
             
 
 
@@ -147,6 +172,8 @@ class PayrollPal(object):
     def is_session_active(self):
         pass
 
+    
+
 # what needs to happen
 # driver needs to open time card (easy)
 # driver needs to collect current entries in a format identical to mock-data
@@ -173,3 +200,11 @@ def load_pickled(id):
 if __name__ == "__main__":
     p = PayrollPal('jfoster', 'fost8400')
     p.login()
+    p.set_entries_range('11/08/2019', '11/14/2019')
+    # select values (punch[0]) need to be string
+    # "-1" == work
+    # "-2" == meal
+    p.set_entry('11/13/2019', [
+        "-1", '9:00 AM', '5:30 PM',
+        "-2", '1:00 PM', '1:30 PM',
+    ])
