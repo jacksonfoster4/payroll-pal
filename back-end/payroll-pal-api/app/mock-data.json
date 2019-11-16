@@ -108,7 +108,7 @@
             "punches": []
         },
         {
-            "approved": true,
+            "approved": false,
             "date": [
                 10,
                 25,
@@ -116,14 +116,14 @@
             ],
             "day": "Friday",
             "hours": 0,
+            "index": 4,
             "punches": [
                 [
                     "holiday",
                     null,
                     null
                 ]
-            ],
-            "index": 4
+            ]
         },
         {
             "approved": true,

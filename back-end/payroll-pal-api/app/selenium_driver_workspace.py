@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-
+import pprint as pp
 root = os.path.abspath(os.path.dirname(__file__))
 
 class PayrollPal(object):
@@ -82,14 +82,60 @@ class PayrollPal(object):
         end_date.send_keys(Keys.ENTER)
 
         #self.driver.find_element_by_class_name('emp-popup-backButton').click()
-    
+    def get_entries(self):
+        # wait until entries are loaded
+        wait = WebDriverWait(self.driver, 3)
+        wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, 'timesheetentryloader')))
+
+        final = []
+        entries_candidates = self.driver.find_elements_by_xpath('//*[@id="divFloatingLayer"]/div/div')
+        entries = []
+
+        for i, el in enumerate(entries_candidates):
+            if entries_candidates[i].get_attribute('style') == 'width: 99.9%;':
+                entries.append(entries_candidates[i])
+        
+        for entry in entries:
+            tmp_date = entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(2)').text
+            tmp = {
+                'date': tmp_date.split('/'),
+                'day': entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(1)').text,
+                'hours': int(float(entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(4)').text)),
+                'punches': []
+            }
+
+            punches = entry.find_elements_by_css_selector('div:nth-child(3) > div')
+            for i, punch in enumerate(punches):
+                if "font-size: 8pt" in punch.get_attribute('style'): # shits acting up but this makes things work. its ugly. i know
+                    tmp['punches'].append(
+                        [
+                            punch.find_element_by_css_selector('div:nth-child(3) > select').get_attribute('value'),
+                            punch.find_element_by_css_selector('div:nth-child(4) > input').get_attribute('value'),
+                            punch.find_element_by_css_selector('div:nth-child(5) > input').get_attribute('value'),
+                        ]
+                    )
+            final.append(tmp)
+        pp.pprint(final)
+        return final
+            
+
+
     def set_entry(self, date, punches):
         # find entries
-        entries = self.driver.find_elements_by_css_selector('#divTimeSheetEntryContainer form #divFloatingLayer .emp-action-popup-tsListItem span:nth-child(2)')
+
+        # wait until entries are loaded
+        wait = WebDriverWait(self.driver, 3)
+        wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, 'timesheetentryloader')))
+
+        entries = self.driver.find_elements_by_xpath('//*[@id="divFloatingLayer"]/div/div')
         entry = None
-        for element in entries:
-            if element.text == date:
-                entry = element
+
+        for i, el in enumerate(entries):
+            if entries[i].get_attribute('style') == 'width: 99.9%;':
+                entry_date = entries[i].find_element_by_css_selector('div:nth-child(1) > span:nth-child(2)').text
+                if entry_date == date:
+                    entry = entries[i]
+            
         for punch in punches:
             pass
                 
@@ -112,25 +158,7 @@ class PayrollPal(object):
 
     # entry == each day
     # app functions
-    def get_entries(self, start, end):
-        data = None
-        # load data to temp variable
-        with open('{}/mock-data.json'.format(root), 'rb') as json_file:
-            data = json.load(json_file)
-
-        start_i = 0
-        end_i = len(data['entries'])
-        for i, entry in enumerate(data['entries']):
-            for j, el in enumerate(entry['date']): 
-                entry['date'][j] = str(el)
-
-            if entry['date'] == start:
-                start_i = i
-            if entry['date'] == end:
-                end_i = i+1
-
-        data['entries'] = data['entries'][start_i:end_i]
-        return data
+    
 
     def update_entry(self, entry):
         data = None
@@ -204,7 +232,8 @@ if __name__ == "__main__":
     # select values (punch[0]) need to be string
     # "-1" == work
     # "-2" == meal
-    p.set_entry('11/13/2019', [
-        "-1", '9:00 AM', '5:30 PM',
-        "-2", '1:00 PM', '1:30 PM',
-    ])
+    p.get_entries()
+    #p.set_entry('11/13/2019', [
+    #    "-1", '9:00 AM', '5:30 PM',
+    #    "-2", '1:00 PM', '1:30 PM',
+    #])
