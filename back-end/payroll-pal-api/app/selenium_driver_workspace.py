@@ -6,10 +6,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 import pprint as pp
+import time
 root = os.path.abspath(os.path.dirname(__file__))
 
 class PayrollPal(object):
-    def __init__(self, username, password):
+    def __init__(self, username, password, start, end):
         self.id = id(self)
         self.bbsi_client_id = 'TN3111'
         self.bbsi_url = "https://bbsitimenet.centralservers.com/Login.aspx"
@@ -18,6 +19,8 @@ class PayrollPal(object):
         self.password = password
         self.logged_in = False
         self.entries = None
+        self.start = start
+        self.end = end
         with open('{}/mock-data.json'.format(root)) as json_file:
             self.entries = json.load(json_file)
         
@@ -51,41 +54,70 @@ class PayrollPal(object):
             print(error.text)
 
 
-    def set_entries_range(self, start, end):
+    def set_entries_range(self, tab):
         # open actions tab
-        actions_button = self.driver.find_element_by_id("divActions")
-        actions_button.click()
+        if tab == 'time_card':
+            time_card_button = self.driver.find_element_by_id('divTimeCard')
+            time_card_button.click()
+            
+            inputs = self.driver.find_elements_by_class_name('emp-popup-timecard-dateTextBox')
 
-        # wait for ajax to load entries
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.ID, "fromTSDate")))
+            def inputs_have_value(s):
+                inputs = self.driver.find_elements_by_class_name('emp-popup-timecard-dateTextBox')
+                return inputs[0].get_attribute('value') != '' and inputs[1].get_attribute('value') != ''
 
-        # set date ranges
-        start_date = self.driver.find_element_by_id("fromTSDate")
-        end_date = self.driver.find_element_by_id("toTSDate")
+            # wait for ajax to load entries
+            wait = WebDriverWait(self.driver, 1)
+            wait.until(inputs_have_value)
 
-        if start:
+            # set date ranges
+            start_date = inputs[0]
+            end_date = inputs[1]
+
+        elif tab == 'actions':
+        
+            actions_button = self.driver.find_element_by_id("divActions")
+            actions_button.click()
+
+            # wait for ajax to load entries
+            wait = WebDriverWait(self.driver, 10)
+            wait.until(EC.element_to_be_clickable((By.ID, "fromTSDate")))
+
+            # set date ranges
+            start_date = self.driver.find_element_by_id("fromTSDate")
+            end_date = self.driver.find_element_by_id("toTSDate")
+
+
+
+        if self.start:
             len_of_start = len(start_date.get_attribute("value"))
             for i in range(len_of_start):
                 start_date.send_keys(Keys.BACKSPACE)
 
-            start_date.send_keys(start)
+            start_date.send_keys(self.start)
 
-        if end:
+        if self.end:
             len_of_end = len(start_date.get_attribute("value"))
             for i in range(len_of_end):
                 end_date.send_keys(Keys.BACKSPACE)
 
-            end_date.send_keys(end)
+            end_date.send_keys(self.end)
 
         # submit date ranges
         end_date.send_keys(Keys.ENTER)
 
-        #self.driver.find_element_by_class_name('emp-popup-backButton').click()
+
     def get_entries(self):
         # wait until entries are loaded
         wait = WebDriverWait(self.driver, 3)
         wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, 'timesheetentryloader')))
+
+        def inputs_have_value(s):
+            input = self.driver.find_element_by_css_selector('#startTime_0')
+            return input.get_attribute('value') != ''
+
+        # wait for ajax to load entries
+        
 
         final = []
         entries_candidates = self.driver.find_elements_by_xpath('//*[@id="divFloatingLayer"]/div/div')
@@ -96,12 +128,16 @@ class PayrollPal(object):
                 entries.append(entries_candidates[i])
         
         for entry in entries:
-            tmp_date = entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(2)').text
+            tmp_date = entry.find_element_by_xpath('.//span[2]').text
+            hours = int(float(entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(4)').text))
+            if not hours:
+                continue
             tmp = {
                 'date': tmp_date.split('/'),
                 'day': entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(1)').text,
                 'hours': int(float(entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(4)').text)),
-                'punches': []
+                'punches': [],
+                'approved': False
             }
 
             punches = entry.find_elements_by_css_selector('div:nth-child(3) > div')
@@ -115,6 +151,23 @@ class PayrollPal(object):
                         ]
                     )
             final.append(tmp)
+
+        self.driver.find_element_by_class_name('emp-popup-backButton').click()
+
+            # find out if its approved
+        self.set_entries_range('time_card')
+        time.sleep(1)
+        punches = self.driver.find_elements_by_class_name('TimeCardGridDataRow')
+
+        for i, punch in enumerate(punches):
+            date = punch.find_element_by_css_selector('div:nth-child(4)').text.split('/')
+            approval = punch.find_element_by_xpath('.//input[1]').get_attribute('value')
+            if final[i]['date'] == date:
+                if approval == "on":
+                    final[i]['approved'] = True
+
+
+
         pp.pprint(final)
         return final
             
@@ -226,9 +279,9 @@ def load_pickled(id):
         return pp
 
 if __name__ == "__main__":
-    p = PayrollPal('jfoster', 'fost8400')
+    p = PayrollPal('jfoster', 'fost8400', start='11/08/2019', end='11/14/2019')
     p.login()
-    p.set_entries_range('11/08/2019', '11/14/2019')
+    p.set_entries_range('actions')
     # select values (punch[0]) need to be string
     # "-1" == work
     # "-2" == meal
