@@ -5,7 +5,7 @@ from selenium import webdriver
 import pickle, os
 from redis import Redis
 from .payroll_pal_client import PayrollPal, load_pickled
-from datetime import timedelta
+from datetime import timedelta, today
 r = Redis('localhost') 
 
 # when to destroy pickle file
@@ -19,7 +19,10 @@ r = Redis('localhost')
 # it also happens that i couldnt figure out how to get session to work (CORs and fetch problems) and this seems to work without issue. no coincidence whatsoever
 
 def authenticate(username, password):
-    pp = PayrollPal(username, password)
+    start = today.strftime("%d/%m/%Y").split("/")
+    end = today + timedelta(days=7)
+    end = end.split("/")
+    pp = PayrollPal(username, password, start=start, end=end)
     if pp.login():
         r.set(pp.id, 1)
         root = os.path.abspath(os.path.dirname(__file__))
@@ -79,9 +82,11 @@ def get_entries():
     pickle_id = current_identity.id
     pp = load_pickled(current_identity.id)
 
-    start = request.get_json()['start'] 
-    end = request.get_json()['end']
-    data = pp.get_entries(start, end)
+    pp.start = request.get_json()['start'] 
+    pp.end = request.get_json()['end']
+
+    data = pp.get_entries()
+
     return jsonify(data)
 
 @app.route('/demo', methods=['POST'])
@@ -95,11 +100,13 @@ def demo():
 def update_entry():
     pickle_id = current_identity.id
     pp = load_pickled(current_identity.id)
-    entry = request.get_json()['entry']
-    entry['date'] = list(map(lambda x: int(x), entry['date']))
-    updated_data = pp.update_entry(entry)
 
-    return jsonify(updated_data)
+    entry = request.get_json()['entry']
+    pp.set_entries([
+            request.get_json()['entries']
+        ])
+
+    return jsonify(pp.get_entries)
 
 @app.route('/approve-all', methods=['POST'])
 @jwt_required()
@@ -107,10 +114,7 @@ def approve_all():
     pickle_id = current_identity.id
     pp = load_pickled(current_identity.id)
 
-    start = request.get_json()['start'] 
-    end = request.get_json()['end']
+    pp.approve_all()
 
-    updated_data = pp.approve_all(start, end)
-
-    return jsonify(updated_data)
+    return jsonify(pp.get_entries())
     

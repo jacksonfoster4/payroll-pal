@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 import pprint as pp
 import time
 root = os.path.abspath(os.path.dirname(__file__))
@@ -49,11 +50,13 @@ class PayrollPal(object):
         if self.driver.title == 'Employee Home':
             self.logged_in = True
             print("Logged In!")
+            return True
         else:
             error = self.driver.find_element_by_id("lblError")
             print(error.text)
+            return False
 
-
+    
     def set_entries_range(self, tab):
         # open actions tab
         if tab == 'time_card':
@@ -67,7 +70,7 @@ class PayrollPal(object):
                 return inputs[0].get_attribute('value') != '' and inputs[1].get_attribute('value') != ''
 
             # wait for ajax to load entries
-            wait = WebDriverWait(self.driver, 1)
+            wait = WebDriverWait(self.driver, 3)
             wait.until(inputs_have_value)
 
             # set date ranges
@@ -93,28 +96,27 @@ class PayrollPal(object):
             len_of_start = len(start_date.get_attribute("value"))
             for i in range(len_of_start):
                 start_date.send_keys(Keys.BACKSPACE)
-
-            start_date.send_keys(self.start)
+            start = "/".join(self.start)
+            start_date.send_keys(start)
 
         if self.end:
             len_of_end = len(start_date.get_attribute("value"))
             for i in range(len_of_end):
                 end_date.send_keys(Keys.BACKSPACE)
 
-            end_date.send_keys(self.end)
+            end = "/".join(self.end)
+            end_date.send_keys(end)
 
         # submit date ranges
         end_date.send_keys(Keys.ENTER)
 
 
     def get_entries(self):
+        self.set_entries_range('actions')
+
         # wait until entries are loaded
         wait = WebDriverWait(self.driver, 3)
         wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, 'timesheetentryloader')))
-
-        def inputs_have_value(s):
-            input = self.driver.find_element_by_css_selector('#startTime_0')
-            return input.get_attribute('value') != ''
 
         # wait for ajax to load entries
         
@@ -129,9 +131,6 @@ class PayrollPal(object):
         
         for entry in entries:
             tmp_date = entry.find_element_by_xpath('.//span[2]').text
-            hours = int(float(entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(4)').text))
-            if not hours:
-                continue
             tmp = {
                 'date': tmp_date.split('/'),
                 'day': entry.find_element_by_css_selector('div:nth-child(1) > span:nth-child(1)').text,
@@ -162,39 +161,101 @@ class PayrollPal(object):
         for i, punch in enumerate(punches):
             date = punch.find_element_by_css_selector('div:nth-child(4)').text.split('/')
             approval = punch.find_element_by_xpath('.//input[1]').get_attribute('value')
-            if final[i]['date'] == date:
-                if approval == "on":
-                    final[i]['approved'] = True
+            for i, entry in enumerate(final):
+                if entry['date'] == date:
+                    if approval == "on":
+                        final[i]['approved'] = True
 
 
 
         pp.pprint(final)
+
+        self.driver.find_element_by_class_name('emp-popup-backButton').click()
+
         return final
             
 
 
-    def set_entry(self, date, punches):
-        # find entries
+    def set_entries(self, target_entries):
+
+        self.set_entries_range('actions')
 
         # wait until entries are loaded
         wait = WebDriverWait(self.driver, 3)
         wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, 'timesheetentryloader')))
+        
+        final = []
+        entries = self.driver.find_elements_by_xpath('//*[@id="divFloatingLayer"]/div/div[@style="width: 99.9%;"]')
 
-        entries = self.driver.find_elements_by_xpath('//*[@id="divFloatingLayer"]/div/div')
-        entry = None
+        for entry in entries:
+            #self.driver.execute_script("arguments[0].scrollIntoView(true);", entry)
+            #time.sleep(2)
+            # needed to access `add punch` because it is outside of the entry div
+            entry_id = entry.find_element_by_xpath('.//span[4]').get_attribute('id')
+            entry_id = entry_id[ len(entry_id) - 1]
 
-        for i, el in enumerate(entries):
-            if entries[i].get_attribute('style') == 'width: 99.9%;':
-                entry_date = entries[i].find_element_by_css_selector('div:nth-child(1) > span:nth-child(2)').text
-                if entry_date == date:
-                    entry = entries[i]
-            
-        for punch in punches:
-            pass
-                
+            tmp_date = entry.find_element_by_xpath('.//span[2]').text.split("/")
+            for e in target_entries:
+                punches = e['punches']
+                if e['date'] == tmp_date:
+                    print(tmp_date)
+                    # remove all punches
+                    old_punches = entry.find_elements_by_xpath('./div[3]/div')
 
+                    for punch in old_punches:
+                        punch.find_element_by_xpath('./div[1]').click()
 
-            
+                    for i, punch in enumerate(punches):
+                        # button lies outside of `entry`
+                        self.driver.find_element_by_css_selector('#tsExpressAdd{}'.format(entry_id)).click()
+
+                        type = punch[0]
+                        start_time = punch[1]
+                        end_time = punch[2]
+
+                        # generates the id of the next select element. i guess we cant dynamically add elements and access them at the same time
+                        # so this dynamically generates their id instead. 
+                        # select element starts with id of type_NUMBER and NUMBER increases by 1 for each punch added, hence the enumerate/index
+                        start_id = entry.find_element_by_xpath('.//div[@class="newentry"][2]').get_attribute('id')
+                        punch_id = int(start_id.split("_")[1])
+                        select_id = "type_{}".format(punch_id)
+                        begin_id = "startTime_{}".format(punch_id)
+                        end_id = "endTime_{}".format(punch_id)
+
+                        start = self.driver.find_element_by_id(begin_id)
+                        end = self.driver.find_element_by_id(end_id)
+
+                        len_of_start = len(start.get_attribute('value'))
+                        for i in range(len_of_start):
+                            start.send_keys(Keys.BACKSPACE)
+
+                        self.driver.execute_script("$( '#'+arguments[0])[0].value = arguments[1]", select_id, type)
+                        start.send_keys(start_time)
+                        end.send_keys(end_time)
+        
+        self.driver.find_element_by_css_selector('.saveandsubmittimesheet').click()
+             
+        wait = WebDriverWait(self.driver, 3)
+        wait.until(EC.invisibility_of_element_located((By.ID, 'divTimeSheetEntryContainer')))
+
+        self.set_entries_range('time_card')
+
+        punches = self.driver.find_elements_by_class_name('TimeCardGridDataRow')
+
+        for i, punch in enumerate(punches):
+            date = punch.find_element_by_css_selector('div:nth-child(4)').text.split('/')
+            approval = punch.find_element_by_xpath('.//input[1]').is_selected()
+            for e in target_entries:
+                # if date matches punch date
+                # if the new entry is supposed to be approved
+                # and if its not already approved
+                if e['date'] == date and e['approved'] and not approval:
+                    punch.find_element_by_xpath('.//input[1]').click()
+
+    def approve_all(self):
+        self.set_entries_range('time_card')
+        self.driver.find_element_by_id('chkTCApproveAll').click()
+        self.driver.find_element_by_class_name('emp-popup-backButton').click()
 
 
     def logout(self):
@@ -206,67 +267,8 @@ class PayrollPal(object):
     def has_session_expired(self):
         # check for session expiration
         # if logged_in == False, `identity()` will return 401
-        self.logged_in = True
-    
-
-    # entry == each day
-    # app functions
-    
-
-    def update_entry(self, entry):
-        data = None
-        date = entry['date']
-        # load data to temp variable
-        with open('{}/mock-data.json'.format(root), 'rb') as json_file:
-            data = json.load(json_file)
-
-        # write new data to temp variable
-        for i, l_entry in enumerate(data['entries']):
-            if l_entry['date'] == entry['date']:
-                data['entries'][i] = entry
-
-
-        # write temp variable to data
-        with open('{}/mock-data.json'.format(root), 'w') as json_file:
-            json.dump(data, json_file, indent=4)
-        
-        return data       
-
-    def approve_all(self, start, end):
-        data = None
-
-        # load data to temp variable
-        with open('{}/mock-data.json'.format(root), 'rb') as json_file:
-            data = json.load(json_file)
-            
-        # write new data to temp variable
-        for i, entry in enumerate(data['entries']):
-            data['entries'][i]['approved'] = True
-
-
-        # write temp variable to data
-        with open('{}/mock-data.json'.format(root), 'w') as json_file:
-            json.dump(data, json_file, indent=4)
-        
-        return data
-
-    def is_session_active(self):
-        pass
-
-    
-
-# what needs to happen
-# driver needs to open time card (easy)
-# driver needs to collect current entries in a format identical to mock-data
-# it might be useful to map entry dates to html ids for quick access
-# driver needs to accurately maintain the state of the entries (predict the crappiness of bbsi)
-# driver needs to accurately update the state of the entries
-# driver needs to detect and return errors
-# driver needs to consistently check if session has expired
-# driver needs to submit all entries
-# driver needs to view time card and approve all entries
-
-
+        if self.driver.find_element_by_id('ui-dialog-title-1').is_displayed():
+            self.logged_in = False
 
 def load_pickled(id):
         root = os.path.abspath(os.path.dirname(__file__))
@@ -279,14 +281,21 @@ def load_pickled(id):
         return pp
 
 if __name__ == "__main__":
-    p = PayrollPal('jfoster', 'fost8400', start='11/08/2019', end='11/14/2019')
+    p = PayrollPal('jfoster', 'fost8400', start=['11','15', '2019'], end=['11','21', '2019'])
     p.login()
-    p.set_entries_range('actions')
     # select values (punch[0]) need to be string
     # "-1" == work
     # "-2" == meal
-    p.get_entries()
-    #p.set_entry('11/13/2019', [
-    #    "-1", '9:00 AM', '5:30 PM',
-    #    "-2", '1:00 PM', '1:30 PM',
-    #])
+    #p.get_entries()
+    p.set_entries(
+        [
+            {
+                'date': ['11','15', '2019'], 
+                'punches': [
+                    [-1, '9:00 AM', '5:30 PM'],
+                    [-2, '1:00 PM', '1:30 PM'],
+                ],  
+                'approved': True
+             }
+        ]
+    )
