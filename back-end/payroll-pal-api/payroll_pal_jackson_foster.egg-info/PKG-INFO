@@ -1,0 +1,14 @@
+Metadata-Version: 1.2
+Name: payroll-pal-jackson-foster
+Version: 0.0.1
+Summary: A client for BBSI time tracking portal built with Selenium and Flask
+Home-page: https://github.com/jacksonfoster4/payroll-pal
+Author: Jackson Foster
+Author-email: jackson@jacksonwfoster.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6

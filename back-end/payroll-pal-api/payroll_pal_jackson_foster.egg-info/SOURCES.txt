@@ -1,0 +1,10 @@
+setup.py
+app/__init__.py
+app/payroll_pal_client.py
+app/pickle_cleanup.py
+app/routes.py
+app/selenium_driver_workspace.py
+payroll_pal_jackson_foster.egg-info/PKG-INFO
+payroll_pal_jackson_foster.egg-info/SOURCES.txt
+payroll_pal_jackson_foster.egg-info/dependency_links.txt
+payroll_pal_jackson_foster.egg-info/top_level.txt
