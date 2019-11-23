@@ -20,6 +20,7 @@ class PayrollPal(object):
         self.password = password
         self.logged_in = False
         self.entries = None
+        self.demo = False
         self.start = start
         self.end = end
         with open('{}/mock-data.json'.format(root)) as json_file:

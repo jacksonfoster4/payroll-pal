@@ -188,8 +188,6 @@ class PayrollPal(object):
         entries = self.driver.find_elements_by_xpath('//*[@id="divFloatingLayer"]/div/div[@style="width: 99.9%;"]')
 
         for entry in entries:
-            #self.driver.execute_script("arguments[0].scrollIntoView(true);", entry)
-            #time.sleep(2)
             # needed to access `add punch` because it is outside of the entry div
             entry_id = entry.find_element_by_xpath('.//span[4]').get_attribute('id')
             entry_id = entry_id[ len(entry_id) - 1]
@@ -271,21 +269,18 @@ class PayrollPal(object):
             self.logged_in = False
 
 def load_pickled(id):
-        root = os.path.abspath(os.path.dirname(__file__))
-        file_path = "{}/tmp/{}-payroll-pal.p".format(root, id)
-        pp = pickle.load( open(file_path, "rb"))
-        # every authed request loads the pickled object. 
-        # therefore before every request we need to check if bbsi session has expired
-        # that way we can properly authenticate requests if it has expired
-        pp.has_session_expired()
-        return pp
+    root = os.path.abspath(os.path.dirname(__file__))
+    file_path = "{}/tmp/{}-payroll-pal.p".format(root, id)
+    pp = pickle.load( open(file_path, "rb"))
+    # every authed request loads the pickled object. 
+    # therefore before every request we need to check if bbsi session has expired
+    # that way we can properly authenticate requests if it has expired
+    pp.has_session_expired()
+    return pp
 
 if __name__ == "__main__":
     p = PayrollPal('jfoster', 'fost8400', start=['11','15', '2019'], end=['11','21', '2019'])
     p.login()
-    # select values (punch[0]) need to be string
-    # "-1" == work
-    # "-2" == meal
     #p.get_entries()
     p.set_entries(
         [

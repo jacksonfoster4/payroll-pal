@@ -58,6 +58,7 @@ class Core extends React.Component {
       this.setState({ ...values })
     }
   }
+  
   componentDidUpdate(){
     if(this.state.message || this.state.error) {
       let self = this
@@ -70,6 +71,7 @@ class Core extends React.Component {
       }, 3000);
     }
   }
+
   render(){
     if(this.state.error401){
       return <Redirect to={{
@@ -83,14 +85,17 @@ class Core extends React.Component {
           <div className="App">
             <Header />
             <div className="App-body">  
+
             { this.state.message ?  
               <div className="alert mx-4 alert-success" role="alert">
                 { this.state.message }
               </div> : <div></div> } 
+              
               { this.state.error ?  
               <div className="alert mx-4 alert-danger" role="alert">
                 { this.state.error }
               </div> : <div></div> } 
+
               <div>
                <div className={ this.state.loading ? '': "d-none" }> <h5 className="display-4">Loading...</h5></div>
               <div className={ this.state.loading ? 'd-none': "" }>

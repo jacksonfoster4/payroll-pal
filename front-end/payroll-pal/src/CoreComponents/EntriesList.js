@@ -13,7 +13,6 @@ function EntriesList() {
     const [loading, setLoading] = useState(true)
 
     useEffect( () => {
-
         let hb = setInterval(function () {
         Heartbeat().catch(
             (error) => {
@@ -27,7 +26,7 @@ function EntriesList() {
     .then((result) => {
         if(result.error){
           if(result.status_code === 401){
-            coreContext.setError({error: "Whoops! You are not logged in!"})
+            coreContext.setError("Whoops! You are not logged in!")
             authContext.logout()
           }
           else {

@@ -16,7 +16,7 @@ class LoginForm extends React.Component {
 
         if(loggedIn) {
             this.props.context.authenticate()
-            this.props.history.push("/core") 
+            this.props.history.push("/core")     
         }
 
     }

@@ -12,11 +12,12 @@ class App extends React.Component {
     isAuthenticated: false,
 
     authenticate: () => {
-      PayrollPalClient.getIsAuthenticated().then( 
+      return PayrollPalClient.getIsAuthenticated().then( 
         (result) => {
           this.setState({
             isAuthenticated: result
           })
+          return result
       })
     },
 

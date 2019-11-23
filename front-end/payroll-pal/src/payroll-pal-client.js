@@ -40,7 +40,6 @@ class PayrollPalClient  {
         .then( res => res.json() )
         .then(
             (result) => {
-                console.log(result)
                 return result
             },
             (error) => {
@@ -89,8 +88,6 @@ class PayrollPalClient  {
     }
 
     static approveAll(start, end){
-        console.log(start)
-        console.log(end)
         let body = {'start': start, 'end': end}
         return PayrollPalClient.sendAuthedRequest('/approve-all', 'POST', body)
     }
