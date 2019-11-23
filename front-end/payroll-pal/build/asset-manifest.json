@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4d2da84d.chunk.css",
+    "main.js": "/static/js/main.9c1bfb31.chunk.js",
+    "main.js.map": "/static/js/main.9c1bfb31.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.5ffed5d0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.5ffed5d0.js.map",
+    "static/js/2.f2b24ef1.chunk.js": "/static/js/2.f2b24ef1.chunk.js",
+    "static/js/2.f2b24ef1.chunk.js.map": "/static/js/2.f2b24ef1.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.feff73339129c046f86b46292a16fc4b.js": "/precache-manifest.feff73339129c046f86b46292a16fc4b.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.4d2da84d.chunk.css.map": "/static/css/main.4d2da84d.chunk.css.map",
+    "static/media/Payroll-Pal-Logo Large.svg": "/static/media/Payroll-Pal-Logo Large.bdaaacca.svg",
+    "static/media/Payroll-Pal-Logo Small.svg": "/static/media/Payroll-Pal-Logo Small.245426ad.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5ffed5d0.js",
+    "static/js/2.f2b24ef1.chunk.js",
+    "static/css/main.4d2da84d.chunk.css",
+    "static/js/main.9c1bfb31.chunk.js"
+  ]
+}
