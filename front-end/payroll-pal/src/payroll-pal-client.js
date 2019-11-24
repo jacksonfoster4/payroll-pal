@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 
-const apiUrl = 'http://localhost:5000'
-// const apiUrl = 'payrollpal.thefoundationworks.com/api
+
+const apiUrl = 'api'
 
 class PayrollPalClient  {
 
@@ -104,6 +104,7 @@ class PayrollPalClient  {
     static async getIsAuthenticated(){
         return await PayrollPalClient.sendAuthedRequest('/verify', 'GET').then(
             (result) => {
+                console.log(result)
                 return result.error ? false : true
             }
         )

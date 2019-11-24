@@ -5,7 +5,7 @@ from selenium import webdriver
 import pickle, os
 from redis import Redis
 from .payroll_pal_client import PayrollPal, load_pickled
-from datetime import timedelta, today
+from datetime import timedelta, date
 r = Redis('localhost') 
 
 # when to destroy pickle file
@@ -19,9 +19,9 @@ r = Redis('localhost')
 # it also happens that i couldnt figure out how to get session to work (CORs and fetch problems) and this seems to work without issue. no coincidence whatsoever
 
 def authenticate(username, password):
-    start = today.strftime("%d/%m/%Y").split("/")
-    end = today + timedelta(days=7)
-    end = end.split("/")
+    start = date.today().strftime("%m/%d/%Y").split("/")
+    end = date.today() + timedelta(days=7)
+    end = end.strftime("%m/%d/%Y").split("/")
     pp = PayrollPal(username, password, start=start, end=end)
     if pp.login():
         r.set(pp.id, 1)
@@ -54,7 +54,7 @@ def verify():
     # used to verify token.
     return ('', 204)
  
-@app.route('/hearbeat', methods=['GET', 'POST'])
+@app.route('/heartbeat', methods=['GET', 'POST'])
 @jwt_required()
 def heartbeat():
     # ping /heartbeat every minute
