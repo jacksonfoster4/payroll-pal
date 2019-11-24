@@ -9,7 +9,7 @@ Selenium WebDriver is fantastic... for testing. But I have a history of building
 
 Regardless, this app successfully interfaces with the payroll provider and let's me log my hours without ripping my hair out.
 
-![Screenshot](./back-end/screenshot.png)
+![Screenshot](./back-end/screenshot.jpg)
 
 
 # The Tech
