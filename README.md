@@ -1,12 +1,6 @@
 # Payroll Pal
 
-Right when I moved into my new role, The Foundation Works had changed payroll providers and I have to be honest... It's hot trash. The web app sucks. The mobile site sucks. Hot. Trash.
-
-I created this app as a way to pleasantly interface with this dumpster fire. Unfortunately, there is no API and it is a single page application so I knew I would have to do something that I don't really like doing... using Selenium WebDriver.
-
-Selenium WebDriver is fantastic... for testing. But I have a history of building apps that need to use Selenium to power the business logic and it is always a pain in the neck.
-
-Regardless, this app successfully interfaces with the payroll provider and let's me log my hours without ripping my hair out.
+I created this app as a way to pleasantly interface with The Foundation Works payroll provider which was sorely in need of a redesign. Unfortunately, there is no API and it is a single page application so I knew I would have to do something that I don't really like doing... using Selenium WebDriver.
 
 ![Screenshot](./back-end/screenshot.jpg)
 
