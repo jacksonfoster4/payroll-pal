@@ -1,5 +1,4 @@
 # Payroll Pal
-[www.payrollpal.thefoundationworks.com](http://www.payrollpal.thefoundationworks.com)
 
 Right when I moved into my new role, The Foundation Works had changed payroll providers and I have to be honest... It's hot trash. The web app sucks. The mobile site sucks. Hot. Trash.
 
